@@ -9,6 +9,7 @@ const pkg = require('./package.json')
 const isDev = process.env.NODE_ENV === 'development'
 
 const version = isDev ? '' : `${pkg.version}.`
+const name = pkg.name.split('/')[0]
 
 const config = {
   input: 'src/index.ts',
@@ -18,9 +19,9 @@ const config = {
       format: 'es',
     },
     {
-      file: `lib/${pkg.name}.${version}js`,
+      file: `lib/${name}.${version}js`,
       format: 'iife',
-      name: pkg.name,
+      name,
     },
   ],
   plugins: [resolve(), commonjs({ exclude: 'node_modules' }), json(), typescript()],

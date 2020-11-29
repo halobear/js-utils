@@ -1,5 +1,5 @@
 {
-  "name": "js-feedback",
+  "name": "@halobear/js-feedback",
   "version": "1.0.0",
   "description": "loading、toast",
   "main": "lib/index.js",

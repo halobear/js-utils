@@ -1,8 +1,9 @@
 {
   "packages": ["packages/*"],
   "npmClient": "yarn",
+  "useWorkspaces": true,
   "command": {
-    "ignoreChanges": ["ignored-file", "*.md"],
+    "ignoreChanges": ["*.md"],
     "message": "chore(release): publish",
     "registry": "https://registry.npmjs.org"
   },

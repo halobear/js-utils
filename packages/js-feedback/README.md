@@ -1,4 +1,4 @@
-## js-feedback
+## @halobear/js-feedback
 
 loading/toast
 
