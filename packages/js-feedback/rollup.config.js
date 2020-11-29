@@ -9,21 +9,34 @@ const pkg = require('./package.json')
 const isDev = process.env.NODE_ENV === 'development'
 
 const version = isDev ? '' : `${pkg.version}.`
-const name = pkg.name.split('/')[0]
+const name = pkg.name.split('/')[1].replace(/-(\w)/, (_, $1) => $1.toUpperCase())
+
+const devOutput = [
+  {
+    file: 'public/index.js',
+    format: 'iife',
+  },
+]
+
+const prodOutput = [
+  {
+    file: 'lib/index.esm.js',
+    format: 'esm',
+  },
+  {
+    file: 'lib/index.cjs.js',
+    format: 'cjs',
+  },
+  {
+    file: `lib/${name}.${version}js`,
+    format: 'iife',
+    name,
+  },
+]
 
 const config = {
   input: 'src/index.ts',
-  output: [
-    {
-      file: 'lib/index.js',
-      format: 'es',
-    },
-    {
-      file: `lib/${name}.${version}js`,
-      format: 'iife',
-      name,
-    },
-  ],
+  output: isDev ? devOutput : prodOutput,
   plugins: [resolve(), commonjs({ exclude: 'node_modules' }), json(), typescript()],
 }
 
