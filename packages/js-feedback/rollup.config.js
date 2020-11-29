@@ -15,6 +15,7 @@ const devOutput = [
   {
     file: 'public/index.js',
     format: 'iife',
+    name,
   },
 ]
 
