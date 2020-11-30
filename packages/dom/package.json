@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -w -c",
     "build": "rimraf lib && NODE_ENV=production rollup --config && cp src/index.d.ts lib/index.d.ts",
+    "prepublish": "yarn build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -24,5 +25,13 @@
   },
   "keywords": [],
   "author": "luzhongk@126.com",
-  "license": "ISC"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halobear/js-utils.git"
+  },
+  "homepage": "https://github.com/halobear/js-utils#readme",
+  "bugs": {
+    "url": "https://github.com/halobear/js-utils/issues"
+  }
 }

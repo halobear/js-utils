@@ -33,5 +33,13 @@
     "typescript": "^3.9.3"
   },
   "author": "kuan1",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halobear/js-utils.git"
+  },
+  "homepage": "https://github.com/halobear/js-utils#readme",
+  "bugs": {
+    "url": "https://github.com/halobear/js-utils/issues"
+  }
 }
