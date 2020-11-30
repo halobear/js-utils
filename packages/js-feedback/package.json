@@ -41,5 +41,9 @@
   "homepage": "https://github.com/halobear/js-utils#readme",
   "bugs": {
     "url": "https://github.com/halobear/js-utils/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }
