@@ -2,12 +2,13 @@
   "name": "request",
   "version": "1.0.0",
   "description": "简单包装一下axios",
-  "main": "lib/index.cjs.js",
+  "main": "lib/index.umd.js",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "dev": "rimraf lib && NODE_ENV=development rollup --config --watch",
-    "build": "rimraf lib && NODE_ENV=production rollup --config",
+    "dev": "rimraf lib && NODE_ENV=development rollup --config scripts/rollup.dev.config.js --watch",
+    "build": "rimraf lib && NODE_ENV=production node scripts/build",
+    "prepublish": "yarn build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
