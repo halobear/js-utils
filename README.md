@@ -1,4 +1,4 @@
 # js-utils
 
-- `@halobear/dom`: just like jquery, `4k`
-- `@halobear/js-feedback`: loading、toast
+- [`@halobear/dom`](./packages/dom): just like jquery, `4k`
+- [`@halobear/js-feedback`](./packages/js-feedback): loading、toast
