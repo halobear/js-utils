@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "dev:js-feedback": "lerna run dev --scope @halobear/js-feedback"
+    "bootstrap": "lerna bootstrap"
   },
   "workspaces": [
     "packages/*"
