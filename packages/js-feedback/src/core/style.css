@@ -1,11 +1,40 @@
-.fb-fadein {
-  animation: jsFeedbackFadein 0.3s ease;
+.fd-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 20vh;
+  box-sizing: border-box;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fbFadein 0.5s ease both;
 }
-
-.fb-fadeout {
-  animation: jsFeedbackFadein 0.3s ease;
+.fd-container.fd-loading::after {
+  content: '';
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid rgba(204, 204, 204, 0.7);
+  border-right-color: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  animation: fdLoading 0.8s linear infinite;
 }
-
+.fd-container .text {
+  color: #fff;
+  text-align: center;
+  max-width: 80%;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  padding: 0.6em 0.8em;
+  background-color: rgba(0, 0, 0, 0.78);
+  border-radius: 3px;
+  animation: fbFadein 0.5s ease both;
+}
 @keyframes fbFadein {
   from {
     opacity: 0;
@@ -14,12 +43,12 @@
     opacity: 1;
   }
 }
-
-@keyframes fbFadeout {
-  from {
-    opacity: 1;
+@keyframes fdLoading {
+  0% {
+    transform: rotate3d(0, 0, 1, 0deg);
   }
-  to {
-    opacity: 0;
+
+  100% {
+    transform: rotate3d(0, 0, 1, 360deg);
   }
 }

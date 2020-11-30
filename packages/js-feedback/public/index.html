@@ -18,13 +18,22 @@
       text-align: center;
     }
   </style>
-  <script src="index.js"></script>
-  <script>
-  </script>
 </head>
 
 <body>
   <h2>js-feedback</h2>
+  <button class="btn fb-fadein">显示loading</button>
+  <button class="btn2 fb-fadein">显示toast</button>
+  <script src="index.js"></script>
+  <script>
+    document.querySelector('.btn').onclick = () => {
+      jsFeedback.loading.show(2000)
+    }
+    document.querySelector('.btn2').onclick = async () => {
+      await jsFeedback.toast('提示内容提示内容提示', 2000)
+      console.log('toast结束')
+    }
+  </script>
 </body>
 
 </html>
