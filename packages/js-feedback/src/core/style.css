@@ -1,3 +1,25 @@
-div {
-  mask: url(masks.svg#star) exclude;
+.fb-fadein {
+  animation: jsFeedbackFadein 0.3s ease;
+}
+
+.fb-fadeout {
+  animation: jsFeedbackFadein 0.3s ease;
+}
+
+@keyframes fbFadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fbFadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
