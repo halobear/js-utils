@@ -1746,13 +1746,6 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@rollup/plugin-alias@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.npm.taobao.org/@rollup/plugin-alias/download/@rollup/plugin-alias-3.1.1.tgz#bb96cf37fefeb0a953a6566c284855c7d1cd290c"
-  integrity sha1-u5bPN/7+sKlTplZsKEhVx9HNKQw=
-  dependencies:
-    slash "^3.0.0"
-
 "@rollup/plugin-babel@^5.2.1":
   version "5.2.1"
   resolved "https://registry.npm.taobao.org/@rollup/plugin-babel/download/@rollup/plugin-babel-5.2.1.tgz#20fc8f8864dc0eaa1c5578408459606808f72924"
@@ -1773,11 +1766,6 @@
     is-reference "^1.1.2"
     magic-string "^0.25.2"
     resolve "^1.11.0"
-
-"@rollup/plugin-html@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.npm.taobao.org/@rollup/plugin-html/download/@rollup/plugin-html-0.2.0.tgz#a01068e3e0e089a65f44c1b1988b8acd236f36e9"
-  integrity sha1-oBBo4+DgiaZfRMGxmIuKzSNvNuk=
 
 "@rollup/plugin-json@^4.1.0":
   version "4.1.0"
@@ -7045,11 +7033,6 @@ slash@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/slash/download/slash-2.0.0.tgz#de552851a1759df3a8f206535442f5ec4ddeab44"
   integrity sha1-3lUoUaF1nfOo8gZTVEL17E3eq0Q=
-
-slash@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npm.taobao.org/slash/download/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
-  integrity sha1-ZTm+hwwWWtvVJAIg2+Nh8bxNRjQ=
 
 slice-ansi@^2.1.0:
   version "2.1.0"

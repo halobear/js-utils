@@ -29,8 +29,13 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "@halobear/js-feedback": "^1.0.0",
     "axios": "^0.21.0"
   },
   "author": "kuan1",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
 }

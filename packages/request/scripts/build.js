@@ -38,7 +38,7 @@ function buildUMD() {
     .rollup({
       input: path.resolve(__dirname, '../src/index.ts'),
       plugins: [resolve(), commonjs(), typescript()],
-      external: ['axios'],
+      external: ['axios', '@halobear/js-feedback'],
     })
     .then((bundle) => {
       return bundle.write({
@@ -47,7 +47,7 @@ function buildUMD() {
         format: 'umd',
         file: path.resolve(__dirname, `../${outDir}/index.umd.js`),
         banner,
-        globals: { axios: 'axios' },
+        globals: { axios: 'axios', '@halobear/js-feedback': 'jsFeedback' },
         exports: 'auto',
       })
     })
