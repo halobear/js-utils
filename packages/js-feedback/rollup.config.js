@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
+import postcss from 'rollup-plugin-postcss'
 
 const pkg = require('./package.json')
 
@@ -21,12 +22,12 @@ const devOutput = [
 
 const prodOutput = [
   {
-    file: 'lib/index.esm.js',
-    format: 'esm',
-  },
-  {
     file: 'lib/index.cjs.js',
     format: 'cjs',
+  },
+  {
+    file: 'lib/index.esm.js',
+    format: 'esm',
   },
   {
     file: `lib/${name}.${version}js`,
@@ -38,7 +39,7 @@ const prodOutput = [
 const config = {
   input: 'src/index.ts',
   output: isDev ? devOutput : prodOutput,
-  plugins: [resolve(), commonjs({ exclude: 'node_modules' }), json(), typescript()],
+  plugins: [resolve(), commonjs({ exclude: 'node_modules' }), json(), typescript(), postcss()],
 }
 
 if (!isDev) {

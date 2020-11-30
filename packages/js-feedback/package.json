@@ -2,7 +2,8 @@
   "name": "@halobear/js-feedback",
   "version": "1.0.0",
   "description": "loading、toast",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "dev": "rimraf lib && NODE_ENV=development rollup --config --watch",
@@ -21,9 +22,11 @@
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@typescript-eslint/eslint-plugin": "^3.6.1",
     "@typescript-eslint/parser": "^3.6.1",
+    "autoprefixer": "^9.8.6",
     "eslint": "^7.4.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.21.0",
+    "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-typescript2": "^0.27.2",
     "typescript": "^3.9.3"
