@@ -6,6 +6,7 @@ let timer:NodeJS.Timeout|null
  * @param time ms 
  */
 function showLoading(time:number = 0) {
+  if (typeof window === 'undefined') return
   if (timer) {
     clearTimeout(timer)
     timer = null

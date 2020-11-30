@@ -9,7 +9,7 @@ let timer:NodeJS.Timeout|null
  * @param time 提示时间
  */
 function toast (text:string, time = 2000) {
-  if (!text) return ''
+  if (!text || typeof window === 'undefined') return ''
   loading.hide()
   if (timer) {
     clearTimeout(timer)
