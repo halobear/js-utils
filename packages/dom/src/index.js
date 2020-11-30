@@ -1,4 +1,3 @@
-import 'element-closest'
 import $ from 'balajs'
 
 // 其实，$ 的原型就是一个数组，拥有数组的各种方法
