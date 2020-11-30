@@ -4,6 +4,7 @@
   "description": "balajs from https://github.com/Tencent/weui.js/blob/master/src/util/util.js",
   "main": "lib/dom.cjs.js",
   "module": "es/dom.esm.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -w -c",
     "build": "rimraf lib && NODE_ENV=production rollup --config && cp src/index.d.ts lib/index.d.ts",
