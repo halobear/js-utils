@@ -47,6 +47,7 @@ function buildUMD() {
         format: 'umd',
         file: path.resolve(__dirname, `../${outDir}/index.umd.js`),
         banner,
+        globals: { axios: 'axios' },
         exports: 'auto',
       })
     })
@@ -89,4 +90,4 @@ function buildESM() {
 }
 
 buildUMD()
-buildESM()
+// buildESM()
