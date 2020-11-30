@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "rimraf lib && NODE_ENV=development rollup --config --watch",
     "build": "rimraf lib && NODE_ENV=production rollup --config",
+    "prepublish": "yarn build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [

@@ -6,7 +6,7 @@
   "module": "es/dom.esm.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -w -c",
-    "build": "rimraf lib && NODE_ENV=production rollup --config",
+    "build": "rimraf lib && NODE_ENV=production rollup --config && cp src/index.d.ts lib/index.d.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
