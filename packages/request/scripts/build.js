@@ -90,4 +90,4 @@ function buildESM() {
 }
 
 buildUMD()
-// buildESM()
+buildESM()
