@@ -1,6 +1,6 @@
 {
   "name": "@halobear/js-feedback",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "loading、toast",
   "main": "lib/index.cjs.js",
   "module": "lib/index.esm.js",
