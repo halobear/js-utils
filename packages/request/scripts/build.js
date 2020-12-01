@@ -33,13 +33,15 @@ const banner = `
  */
 `.trim()
 
+const config = {
+  input: path.resolve(__dirname, '../src/index.ts'),
+  plugins: [resolve(), commonjs(), typescript()],
+  external: ['axios', '@halobear/js-feedback'],
+}
+
 function buildUMD() {
   rollup
-    .rollup({
-      input: path.resolve(__dirname, '../src/index.ts'),
-      plugins: [resolve(), commonjs(), typescript()],
-      external: ['axios', '@halobear/js-feedback'],
-    })
+    .rollup(config)
     .then((bundle) => {
       return bundle.write({
         strict: true,
@@ -70,11 +72,7 @@ function buildUMD() {
 
 function buildESM() {
   rollup
-    .rollup({
-      input: path.resolve(__dirname, '../src/index.ts'),
-      plugins: [resolve(), commonjs(), typescript()],
-      external: ['axios'],
-    })
+    .rollup(config)
     .then((bundle) => {
       return bundle.write({
         strict: true,

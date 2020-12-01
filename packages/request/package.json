@@ -29,7 +29,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@halobear/js-feedback": "^1.0.0",
+    "@halobear/js-feedback": "^1.0.1",
     "axios": "^0.21.0"
   },
   "author": "kuan1",
