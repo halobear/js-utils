@@ -1,7 +1,8 @@
-import axios from 'axios'
-
 import { loading, toast } from '@halobear/js-feedback'
+import createApi from './core/create-api'
 
-console.log(loading, toast)
-
-export default axios
+export {
+  loading,
+  toast,
+  createApi
+}

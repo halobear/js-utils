@@ -18,18 +18,17 @@
       text-align: center;
     }
   </style>
-  <script src="index.js"></script>
-  <script>
-    request({
-      url: 'https://www.luzhongkuan.cn/api/blog/article/1'
-    }).then(res => {
-      console.log(res)
-    })
-  </script>
 </head>
 
 <body>
   <h2>request</h2>
+  <script src="index.js"></script>
+  <script>
+    const r = request.createApi({ config: { shouldLoading: true, shouldToast: true } })
+    r({ url: 'https://www.luzhongkuan.cn/api/blog/article2' }).then(res => {
+      console.log(res)
+    })
+  </script>
 </body>
 
 </html>
