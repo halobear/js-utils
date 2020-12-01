@@ -1,5 +1,5 @@
 {
-  "name": "request",
+  "name": "@halobear/request",
   "version": "1.0.0",
   "description": "简单包装一下axios",
   "main": "lib/index.umd.min.js",
