@@ -13,7 +13,8 @@ function showLoading(time:number = 0) {
   }
   if (!elem) {
     elem = document.createElement('div')
-    elem.className = 'fd-container fd-loading'
+    elem.className = 'fd-container'
+    elem.innerHTML = `<i class="fd-loading"><span class="fd-dot"></span></i>`
     document.body.appendChild(elem)
   }
   if (time) {

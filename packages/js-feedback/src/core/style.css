@@ -12,17 +12,58 @@
   justify-content: center;
   animation: fbFadein 0.5s ease both;
 }
-.fd-container.fd-loading::after {
+
+/* loading样式 */
+.fd-loading {
+  display: inline-flex;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  color: black;
+  animation: fdLoading 0.8s steps(60, end) infinite;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.fd-loading:before,
+.fd-loading:after {
   content: '';
   display: block;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 3px solid rgba(204, 204, 204, 0.35);
-  border-right-color: rgba(0, 0, 0, 0.7);
-  border-radius: 50%;
-  animation: fdLoading 0.8s linear infinite;
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 2px solid;
+  border-color: currentColor;
+  opacity: 0.5;
 }
+
+.fd-loading:before {
+  border-right-width: 0;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 0.3) 95%);
+}
+
+.fd-loading:after {
+  border-left-width: 0;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  mask-image: linear-gradient(225deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.3) 95%);
+}
+
+.fd-dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 2px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+/* 提示样式 */
 .fd-container .text {
   color: #fff;
   text-align: center;
