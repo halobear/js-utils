@@ -16,6 +16,7 @@ instance({
   shouldLoading: false,
   shouldToast: true,
 })
+instance('/api/test', { params: { id: 1 }, shouldLoading: true })
 instance.get('/api/test', { params: { id: 1 }, shouldLoading: true })
 instance.post('/api/test', { data: { id: 1 }, shouldLoading: true })
 instance.delete('/api/test', { data: { id: 1 }, shouldLoading: true })
