@@ -1,13 +1,13 @@
 {
   "name": "@halobear/js-feedback",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "loading、toast",
-  "main": "lib/index.cjs.js",
-  "module": "lib/index.esm.js",
+  "main": "lib/index.umd.min.js",
+  "module": "lib/index.esm.min.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "dev": "rimraf lib && NODE_ENV=development rollup --config --watch",
-    "build": "rimraf lib && NODE_ENV=production rollup --config",
+    "dev": "NODE_ENV=development rollup --config scripts/rollup.dev.config.js --watch",
+    "build": "rimraf lib && NODE_ENV=production node scripts/build",
     "prepublish": "yarn build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
