@@ -21,13 +21,15 @@
 </head>
 
 <body>
-  <h2>request</h2>
+  <h2>@halobear/request</h2>
   <script src="index.js"></script>
   <script>
     const r = request.createApi({ config: { shouldLoading: true, shouldToast: true } })
-    // r('https://www.luzhongkuan.cn/api/blog/article2').then(res => {
-    //   console.log(res)
-    // })
+    r('https://www.luzhongkuan.cn/api/blog/article').then(res => {
+      console.log(res)
+    }).catch(e => {
+      console.log(e.config)
+    })
 
     // r.post('api/blog/article').then(res => {
     //   console.log(res)

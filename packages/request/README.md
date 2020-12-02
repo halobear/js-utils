@@ -2,6 +2,15 @@
 
 简单包装一下 axios
 
+## 默认返回 data 数据
+
+```js
+{
+  data: {},
+  success: true
+}
+```
+
 ## usage
 
 ```js

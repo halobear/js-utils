@@ -24,7 +24,7 @@ function handleResponse(response: AxiosResponse<IRet>, handleError: (e:AxiosErro
   }
   const {shouldLoading} = ((config || {}) as any)
   shouldLoading && loading.hide()
-  return data
+  return data.data
 }
 
 export default handleResponse
