@@ -3,6 +3,7 @@ const fs = require('fs')
 const rollup = require('rollup')
 const { default: resolve } = require('@rollup/plugin-node-resolve')
 const typescript = require('rollup-plugin-typescript2')
+const { terser } = require("rollup-plugin-terser")
 const Terser = require('terser')
 const commonjs = require('@rollup/plugin-commonjs')
 
@@ -72,12 +73,15 @@ function buildUMD() {
 
 function buildESM() {
   rollup
-    .rollup(config)
+    .rollup({
+      ...config,
+      plugins: [...config.plugins, terser()]
+    })
     .then((bundle) => {
       return bundle.write({
         strict: true,
         format: 'esm',
-        file: path.resolve(__dirname, `../${outDir}/index.esm.js`),
+        file: path.resolve(__dirname, `../${outDir}/index.esm.min.js`),
         sourcemap: false,
         banner,
       })

@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "简单包装一下axios",
   "main": "lib/index.umd.min.js",
-  "module": "lib/index.esm.js",
+  "module": "lib/index.esm.min.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "dev": "NODE_ENV=development rollup --config scripts/rollup.dev.config.js --watch",
