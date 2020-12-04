@@ -113,6 +113,25 @@ Object.assign($.fn, {
     return this
   },
   /**
+   * @param {transform} string
+   */
+  transform(transform) {
+    for (let i = 0;i < this.length;i += 1) {
+      this[i].style.transform = transform
+    }
+    return this
+  },
+  /**
+   * @param {transform} string | number
+   */
+  transition(duration) {
+    for (let i = 0;i < this.length;i += 1) {
+      this[i].style.transitionDuration =
+        typeof duration !== 'string' ? `${duration}ms` : duration
+    }
+    return this
+  },
+  /**
    *
    * @param eventType
    * @param selector

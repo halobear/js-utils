@@ -6,7 +6,7 @@
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "dev": "rimraf lib && NODE_ENV=development rollup --config scripts/rollup.dev.config.js --watch",
+    "dev": "NODE_ENV=development rollup --config scripts/rollup.dev.config.js --watch",
     "build": "rimraf lib && NODE_ENV=production node scripts/build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,6 +15,7 @@
     "src"
   ],
   "devDependencies": {
+    "@halobear/dom": "^1.0.1",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
@@ -25,6 +26,7 @@
     "rollup": "^2.21.0",
     "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-typescript2": "^0.27.2",
+    "ssr-window": "^3.0.0",
     "typescript": "^3.9.3"
   },
   "author": "kuan1",
