@@ -1,7 +1,7 @@
 {
-  "name": "@halobear/zoom",
+  "name": "@halobear/viewer",
   "version": "1.0.0",
-  "description": "zoom",
+  "description": "images viewer",
   "main": "lib/index.umd.min.js",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
