@@ -1,4 +1,4 @@
 import $ from '@halobear/dom'
-import Zoom from './chore/Zoom'
+import Viewer from './chore/Viewer'
 
-export { $, Zoom }
+export { $, Viewer }

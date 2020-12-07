@@ -15,6 +15,7 @@
 
     body {
       text-align: center;
+      background-color: black;
     }
 
     .zoomable-wrap {
@@ -26,7 +27,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: black;
       display: none;
       cursor: move;
     }
@@ -49,14 +49,13 @@
   </div>
   <script src="index.js"></script>
   <script>
-    var { Zoom, $ } = window.zoom
+    var { Viewer, $ } = window.viewer
 
     $('button').on('click', function (e) {
       $('.zoomable-wrap').css({ display: 'flex' })
     })
-    $('img').on('touchend click', function (e) {
-      Zoom.in(e, this)
-    })
+
+    new Viewer(document.querySelector('img'))
   </script>
 </body>
 

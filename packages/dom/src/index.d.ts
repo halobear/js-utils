@@ -12,14 +12,14 @@ declare module '@halobear/dom' {
     css: (obj: Record<string, string>) => Ret
     transform: (transform: string) => Ret
     transition: (transform: string | number) => Ret
-    on: (eventType: string, selector: string | Handler, handler: Handler | undefined) => Ret
-    off: (eventType: string, selector: string | Handler, handler: Handler | undefined) => Ret
+    on: (eventType: string, selector: string | Handler, handler?: Handler | undefined) => Ret
+    off: (eventType: string, selector: string | Handler, handler?: Handler | undefined) => Ret
     index: () => Ret
     offAll: () => Ret
     val: () => Ret
     attr: () => Ret
   }
-  type Handler = (...args: any[]) => Ret
+  type Handler = (...args: any[]) => Ret | void
   interface Bala {
     (
       element?: string | HTMLElement | HTMLElement[] | Node | Node[] | null,
@@ -36,6 +36,8 @@ declare module '@halobear/dom' {
   }
 
   const $: Bala
+
+  export { Ret }
 
   export default $
 }

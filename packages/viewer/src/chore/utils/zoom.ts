@@ -1,6 +1,17 @@
 import $ from '@halobear/dom'
 
-function zoomIn(
+// Calc Scale From Multi-touches
+export function getDistanceBetweenTouches(e: TouchEvent) {
+  if (e.targetTouches.length < 2) return 1
+  const x1 = e.targetTouches[0].pageX
+  const y1 = e.targetTouches[0].pageY
+  const x2 = e.targetTouches[1].pageX
+  const y2 = e.targetTouches[1].pageY
+  const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+  return distance
+}
+
+export function zoomIn(
   e: TouchEvent | MouseEvent,
   img: HTMLImageElement,
   wrap: HTMLElement | null = img.parentElement
@@ -100,12 +111,7 @@ function zoomIn(
   $(img).transition(300).transform(`translate3d(0,0,0) scale(${zoom.scale})`)
 }
 
-function zoomOut(img: HTMLImageElement, wrap: HTMLElement | null = img.parentElement) {
+export function zoomOut(img: HTMLImageElement, wrap: HTMLElement | null = img.parentElement) {
   $(wrap).transition(300).transform('translate3d(0,0,0)')
   $(img).transition(300).transform('translate3d(0,0,0) scale(1)')
-}
-
-export default {
-  in: zoomIn,
-  out: zoomOut,
 }
