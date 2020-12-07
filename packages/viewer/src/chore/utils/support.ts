@@ -2,7 +2,6 @@ import { getWindow } from 'ssr-window'
 
 interface SupportWin extends Window {
   DocumentTouch?: any
-  PointerEvent?: any
 }
 
 const window = getWindow() as SupportWin
