@@ -51,11 +51,12 @@
   <script>
     var { Zoom, $ } = window.zoom
 
-    $('button').on('click', function () {
+    $('button').on('click', function (e) {
       $('.zoomable-wrap').css({ display: 'flex' })
     })
-
-    console.log(Zoom)
+    $('img').on('touchend click', function (e) {
+      Zoom.in(e, this)
+    })
   </script>
 </body>
 
