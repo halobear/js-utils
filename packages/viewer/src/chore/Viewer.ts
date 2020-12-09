@@ -1,30 +1,37 @@
-import $, { Ret } from '@halobear/dom'
+import $, { HaloDom } from '@halobear/dom'
 import { now } from './utils'
 import support from './utils/support'
+import * as Zoom from './utils/zoom'
 
 interface Params {
-  maxRatio?: number
+  maxRatio: number
 }
 
 type Method = 'on' | 'off'
 class Viewer {
   private wrap: HTMLElement
-  private $img: Ret
-  private $wrap: Ret
+  private $img: HaloDom
+  private $wrap: HaloDom
   private touchEventsData = {
     lastClickTime: 0,
     touchStartTime: 0,
   }
-  private zoom = {
+  private options = {
     scale: 1,
     currentScale: 1,
+    scaleStart: 1,
+    scaleMove: 1,
+    gestureTouched: false,
+    gestureMoved: false,
   }
   private params = {
+    speed: 300,
     maxRatio: 3,
+    minRatio: 1,
   }
   constructor(
     private img: HTMLImageElement,
-    params: Params,
+    params: Partial<Params>,
     wrap: HTMLElement | null = img.parentElement
   ) {
     if (!wrap) throw new Error('Wrap Not Found')
@@ -38,9 +45,12 @@ class Viewer {
   bindEvent = (method: Method = 'on') => {
     if (support.touch) {
       this.$img[method]('touchstart', this.touchstart)
+      this.$img[method]('touchmove', this.touchmove)
       this.$img[method]('touchend', this.touchend)
+      this.$img[method]('touchcancel', this.touchend)
     } else {
       this.$img[method]('mousedown', this.touchstart)
+      this.$img[method]('mousemove', this.touchmove)
       this.$img[method]('mouseup', this.touchend)
     }
   }
@@ -51,6 +61,14 @@ class Viewer {
   // 触摸开始事件
   touchstart = (e: MouseEvent | TouchEvent) => {
     this.touchEventsData.touchStartTime = now()
+    if (e instanceof TouchEvent) {
+      this.gestureStart(e)
+    }
+  }
+  touchmove = (e: MouseEvent | TouchEvent) => {
+    if (e instanceof TouchEvent) {
+      this.gestureChange(e)
+    }
   }
   // 触摸结束事件
   touchend = (e: MouseEvent | TouchEvent) => {
@@ -61,6 +79,9 @@ class Viewer {
       this.doubleTap(e)
     }
     data.lastClickTime = touchEndTime
+    if (e instanceof TouchEvent) {
+      this.gestureEnd(e)
+    }
   }
   // 双击事件
   doubleTap = (e: MouseEvent | TouchEvent) => {
@@ -68,49 +89,56 @@ class Viewer {
   }
   // 切换放大/1缩小
   toggle = (e: MouseEvent | TouchEvent) => {
-    this.zoom.scale === 1 ? this.zoomIn(e) : this.zoomOut()
+    this.options.scale === 1 ? this.zoomIn(e) : this.zoomOut()
   }
   // 放大进入
   zoomIn = (e: MouseEvent | TouchEvent) => {
-    const { zoom, img, wrap, params } = this
-    zoom.scale = zoom.currentScale = params.maxRatio
-    const { pageX, pageY } = support.touch ? (e as TouchEvent).changedTouches[0] : (e as MouseEvent)
-    const slideWidth = wrap.offsetWidth
-    const slideHeight = wrap.offsetHeight
-    const rect = wrap.getBoundingClientRect()
-    const diffX = rect.left + slideWidth / 2 - pageX
-    const diffY = rect.top + slideHeight / 2 - pageY
-    const scaledWidth = img.offsetWidth * zoom.scale
-    const scaledHeight = img.offsetHeight * zoom.scale
-    const translateMinX = Math.min(slideWidth / 2 - scaledWidth / 2, 0)
-    const translateMinY = Math.min(slideHeight / 2 - scaledHeight / 2, 0)
-    const translateMaxX = -translateMinX
-    const translateMaxY = -translateMinY
-
-    let translateX = diffX * zoom.scale
-    let translateY = diffY * zoom.scale
-
-    if (translateX < translateMinX) {
-      translateX = translateMinX
-    }
-    if (translateX > translateMaxX) {
-      translateX = translateMaxX
-    }
-
-    if (translateY < translateMinY) {
-      translateY = translateMinY
-    }
-    if (translateY > translateMaxY) {
-      translateY = translateMaxY
-    }
-    this.$wrap.transition(300).transform(`translate3d(${translateX}px, ${translateY}px,0)`)
-    this.$img.transition(300).transform(`translate3d(0,0,0) scale(${zoom.scale})`)
+    const { options, img, wrap, params, $img, $wrap } = this
+    const scale = (options.scale = options.currentScale = params.maxRatio)
+    Zoom.zoomIn(e, { img, wrap, $img, $wrap, scale })
   }
   // 恢复缩放
   zoomOut() {
-    this.zoom.scale = this.zoom.currentScale = 1
-    this.$wrap.transition(300).transform('translate3d(0,0,0)')
-    this.$img.transition(300).transform('translate3d(0,0,0) scale(1)')
+    this.options.scale = this.options.currentScale = 1
+    Zoom.zoomOut(this.$img, this.$wrap)
+  }
+  // 手动缩放
+  gestureStart(e: TouchEvent) {
+    if (
+      e.type !== 'touchstart' ||
+      (e.type === 'touchstart' && (e as TouchEvent).targetTouches.length < 2)
+    ) {
+      return
+    }
+    this.options.scaleStart = Zoom.getDistanceBetweenTouches(e)
+    this.$img.transition(0)
+  }
+  gestureChange(e: TouchEvent) {
+    if (e.type !== 'touchmove' || (e.type === 'touchmove' && e.targetTouches.length < 2)) {
+      return
+    }
+    const { options, params } = this
+    options.scaleMove = Zoom.getDistanceBetweenTouches(e)
+    options.scale = (options.scaleMove / options.scaleStart) * options.currentScale
+    if (options.scale > params.maxRatio) {
+      options.scale = params.maxRatio - 1 + (options.scale - params.maxRatio + 1) ** 0.5
+    }
+    if (options.scale < params.minRatio) {
+      options.scale = params.minRatio + 1 - (params.minRatio - options.scale + 1) ** 0.5
+    }
+    console.log(options.scale)
+    this.$img.transform(`translate3d(0,0,0) scale(${options.scale})`)
+  }
+  gestureEnd(e: TouchEvent) {
+    const { options, params, $img } = this
+    if (!options.gestureTouched || !options.gestureMoved) return
+    if (e.type !== 'touchend' || (e.type === 'touchend' && e.changedTouches.length < 2)) {
+      return
+    }
+    options.gestureMoved = options.gestureTouched = false
+    options.scale = Math.max(Math.min(options.scale, params.maxRatio), params.minRatio)
+    $img.transition(params.speed).transform(`translate3d(0,0,0) scale(${options.scale})`)
+    options.currentScale = options.scale
   }
 }
 

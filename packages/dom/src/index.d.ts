@@ -1,6 +1,5 @@
 declare module '@halobear/dom' {
-  type H = HTMLElement[]
-  interface Ret extends H {
+  interface Ret extends Array<HTMLElement> {
     append: (el: HTMLElement[] | HTMLElement) => Ret
     remove: () => Ret
     addClass: (className: string) => Ret
@@ -37,7 +36,7 @@ declare module '@halobear/dom' {
 
   const $: Bala
 
-  export { Ret }
+  export { Ret as HaloDom }
 
   export default $
 }
