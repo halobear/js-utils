@@ -2,6 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "dev": "yarn dev:viewer",
+    "dev:viewer": "yarn workspace @halobear/viewer dev",
     "bootstrap": "lerna bootstrap"
   },
   "workspaces": [
