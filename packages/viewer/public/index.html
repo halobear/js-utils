@@ -17,6 +17,11 @@
       body {
         text-align: center;
       }
+      button {
+        position: fixed;
+        bottom: 300px;
+        right: 300px;
+      }
 
       .zoomable-container {
         position: fixed;
@@ -26,6 +31,9 @@
         height: 100%;
         display: none;
         background-color: black;
+      }
+      .zoomable-container.show {
+        display: block;
       }
 
       .zoomable-wrap {
@@ -62,10 +70,12 @@
     <script src="index.js"></script>
     <script>
       var vConsole = new VConsole()
-      var { Viewer, $ } = window.viewer
+      var { Viewer, $, zoom } = window.viewer
 
       $('button').on('click', function (e) {
-        $('.zoomable-container').css({ display: 'block' })
+        const con = document.querySelector('.zoomable-container')
+        con.classList.add('show')
+        zoom.showViewer(e, con)
       })
 
       new Viewer(document.querySelector('img'))
