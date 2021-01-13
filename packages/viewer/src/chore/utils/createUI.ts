@@ -11,6 +11,7 @@ function createUI(data: string[], screenWidth = 100, gap = 10) {
   const html = `<div class="viewer-wrap" style="width:${(screenWidth + gap) * len - gap}px">${items.join('')}</div>`
   container.innerHTML = html
   document.body.appendChild(container)
+  return container
 }
 
 export default createUI

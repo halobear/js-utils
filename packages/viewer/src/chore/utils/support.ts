@@ -7,8 +7,5 @@ interface SupportWin extends Window {
 const window = getWindow() as SupportWin
 
 export default {
-  touch: !!(
-    'ontouchstart' in window ||
-    (window.DocumentTouch && document instanceof window.DocumentTouch)
-  ),
+  touch: !!('ontouchstart' in window || (window.DocumentTouch && document instanceof window.DocumentTouch)),
 }

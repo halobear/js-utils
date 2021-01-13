@@ -20,10 +20,7 @@ declare module '@halobear/dom' {
   }
   type Handler = (...args: any[]) => Ret | void
   interface Bala {
-    (
-      element?: string | HTMLElement | HTMLElement[] | Node | Node[] | null,
-      context?: string | HTMLElement
-    ): Ret
+    (element?: string | HTMLElement | HTMLElement[] | Node | Node[] | null, context?: string | HTMLElement): Ret
     one: (
       element?: string | HTMLElement | HTMLElement[] | Node | Node[] | null,
       context?: string | HTMLElement
