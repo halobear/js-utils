@@ -29,11 +29,7 @@ class Viewer {
     maxRatio: 3,
     minRatio: 1,
   }
-  constructor(
-    private img: HTMLImageElement,
-    params: Partial<Params>,
-    wrap: HTMLElement | null = img.parentElement
-  ) {
+  constructor(private img: HTMLImageElement, params: Partial<Params>, wrap: HTMLElement | null = img.parentElement) {
     if (!wrap) throw new Error('Wrap Not Found')
     Object.assign(this.params, params)
     this.$img = $(this.img)
@@ -104,10 +100,7 @@ class Viewer {
   }
   // 手动缩放
   gestureStart(e: TouchEvent) {
-    if (
-      e.type !== 'touchstart' ||
-      (e.type === 'touchstart' && (e as TouchEvent).targetTouches.length < 2)
-    ) {
+    if (e.type !== 'touchstart' || (e.type === 'touchstart' && (e as TouchEvent).targetTouches.length < 2)) {
       return
     }
     this.options.scaleStart = Zoom.getDistanceBetweenTouches(e)
@@ -126,7 +119,6 @@ class Viewer {
     if (options.scale < params.minRatio) {
       options.scale = params.minRatio + 1 - (params.minRatio - options.scale + 1) ** 0.5
     }
-    console.log(options.scale)
     this.$img.transform(`translate3d(0,0,0) scale(${options.scale})`)
   }
   gestureEnd(e: TouchEvent) {
