@@ -22,7 +22,9 @@ const config = {
   plugins: [
     resolve({ browser: true }),
     commonjs({ exclude: 'node_modules' }),
-    postcss(),
+    postcss({
+      plugins: [require('autoprefixer')]
+    }),
     json(),
     typescript({ tsconfigOverride: { compilerOptions: { module: 'es2015' } } }),
   ],

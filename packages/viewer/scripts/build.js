@@ -5,6 +5,7 @@ const { default: resolve } = require('@rollup/plugin-node-resolve')
 const typescript = require('rollup-plugin-typescript2')
 const Terser = require('terser')
 const commonjs = require('@rollup/plugin-commonjs')
+const postcss = require('rollup-plugin-postcss')
 
 const pkg = require('../package.json')
 
@@ -37,7 +38,7 @@ function buildUMD() {
   rollup
     .rollup({
       input: path.resolve(__dirname, '../src/index.ts'),
-      plugins: [resolve(), commonjs(), typescript()],
+      plugins: [resolve(), commonjs(), postcss({ plugins: [require('autoprefixer')] }), typescript()],
       external: ['axios'],
     })
     .then((bundle) => {
@@ -72,7 +73,7 @@ function buildESM() {
   rollup
     .rollup({
       input: path.resolve(__dirname, '../src/index.ts'),
-      plugins: [resolve(), commonjs(), typescript()],
+      plugins: [resolve(), commonjs(), postcss({ plugins: [require('autoprefixer')] }), typescript()],
       external: ['axios'],
     })
     .then((bundle) => {
