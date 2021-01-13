@@ -104,7 +104,7 @@ class Viewer {
       return
     }
     this.options.scaleStart = Zoom.getDistanceBetweenTouches(e)
-    this.$img.transition(0)
+    this.$wrap.transition(0)
   }
   gestureChange(e: TouchEvent) {
     if (e.type !== 'touchmove' || (e.type === 'touchmove' && e.targetTouches.length < 2)) {
@@ -119,17 +119,17 @@ class Viewer {
     if (options.scale < params.minRatio) {
       options.scale = params.minRatio + 1 - (params.minRatio - options.scale + 1) ** 0.5
     }
-    this.$img.transform(`translate3d(0,0,0) scale(${options.scale})`)
+    this.$wrap.transform(`translate3d(0,0,0) scale(${options.scale})`)
   }
   gestureEnd(e: TouchEvent) {
-    const { options, params, $img } = this
+    const { options, params, $wrap } = this
     if (!options.gestureTouched || !options.gestureMoved) return
     if (e.type !== 'touchend' || (e.type === 'touchend' && e.changedTouches.length < 2)) {
       return
     }
     options.gestureMoved = options.gestureTouched = false
     options.scale = Math.max(Math.min(options.scale, params.maxRatio), params.minRatio)
-    $img.transition(params.speed).transform(`translate3d(0,0,0) scale(${options.scale})`)
+    $wrap.transition(params.speed).transform(`translate3d(0,0,0) scale(${options.scale})`)
     options.currentScale = options.scale
   }
 }
