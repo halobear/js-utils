@@ -2,6 +2,7 @@ import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
+import postcss from 'rollup-plugin-postcss'
 import pkg from '../package.json'
 
 const name = (pkg.name.includes('/') ? pkg.name.split('/')[1] : pkg.name).replace(
@@ -21,6 +22,7 @@ const config = {
   plugins: [
     resolve({ browser: true }),
     commonjs({ exclude: 'node_modules' }),
+    postcss(),
     json(),
     typescript({ tsconfigOverride: { compilerOptions: { module: 'es2015' } } }),
   ],
