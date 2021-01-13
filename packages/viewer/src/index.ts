@@ -33,11 +33,11 @@ export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
 
   const container = createUI(data, config)
   showViewer(container, e)
-  const $container = $(container)
+
   const carousel = new Carousel(container, config)
 
   return () => {
     carousel.destroy()
-    $container.remove()
+    $(container).remove()
   }
 }

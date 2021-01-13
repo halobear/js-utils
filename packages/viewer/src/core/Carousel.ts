@@ -112,6 +112,7 @@ export default class Carousel {
         this.index += 1
       }
     }
+    this.diffX = 0
     this.slideTo(Math.min(this.options.maxIndex, Math.max(0, this.index)))
   }
   slideTo(index = 0) {
