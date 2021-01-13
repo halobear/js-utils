@@ -20,18 +20,21 @@ export default (options: ViewerOptions) => {
     screenHeight = document.documentElement.clientHeight || document.body.clientHeight,
     index = 0,
   } = options
-  const container = createUI(data, screenWidth, gap)
-  const $container = $(container)
-  new Carousel({
+
+  const config = {
     index,
     maxIndex: data.length - 1,
     maxLeft: (screenWidth + gap) * (data.length - 1),
     gap,
     screenWidth,
     screenHeight,
-    container,
-  })
+  }
+
+  const container = createUI(data, config)
+  const $container = $(container)
+  const carousel = new Carousel(container, config)
   return () => {
+    carousel.destroy()
     $container.remove()
   }
 }
