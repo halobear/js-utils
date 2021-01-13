@@ -1,8 +1,9 @@
 import './index.css'
 
 import $ from '@halobear/dom'
-import createUI from './chore/utils/createUI'
-import Carousel from './chore/Carousel'
+import createUI from './core/utils/createUI'
+import showViewer from './core/utils/showViewer'
+import Carousel from './core/Carousel'
 
 interface ViewerOptions {
   data: string[]
@@ -12,7 +13,7 @@ interface ViewerOptions {
   index?: number
 }
 
-export default (options: ViewerOptions) => {
+export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
   const {
     data,
     gap = 10,
@@ -31,8 +32,10 @@ export default (options: ViewerOptions) => {
   }
 
   const container = createUI(data, config)
+  showViewer(container, e)
   const $container = $(container)
   const carousel = new Carousel(container, config)
+
   return () => {
     carousel.destroy()
     $container.remove()

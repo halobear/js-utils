@@ -61,7 +61,7 @@ export function zoomOut($img: HaloDom, $wrap: HaloDom) {
   $img.transition(300).transform('translate3d(0,0,0) scale(1)')
 }
 
-export function showViewer(e: TouchEvent | MouseEvent, container: HTMLElement) {
+export function showViewer(container: HTMLElement, e: TouchEvent | MouseEvent) {
   const { pageX, pageY } = 'changedTouches' in e ? (e as TouchEvent).changedTouches[0] : (e as MouseEvent)
   const clientWidth = document.documentElement.clientWidth || document.body.clientWidth
   const clientHeight = document.documentElement.clientHeight || document.body.clientHeight

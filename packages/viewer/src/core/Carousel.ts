@@ -55,6 +55,7 @@ export default class Carousel {
     }
   }
   destroy() {
+    window.removeEventListener('resize', this.resize)
     if (support.touch) {
       this.container.removeEventListener('touchstart', this.handleStart)
       window.removeEventListener('touchmove', this.handleMove)
@@ -104,7 +105,7 @@ export default class Carousel {
   }
   handleEnd() {
     if (!this.isStart) return
-    if (Math.abs(this.diffX) > 80) {
+    if (Math.abs(this.diffX) > 100) {
       if (this.diffX > 0) {
         this.index -= 1
       } else {
