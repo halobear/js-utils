@@ -1,6 +1,7 @@
 import { HaloDom, default as $ } from '@halobear/dom'
-import { getXY } from './utils'
+import { getPageXY } from './utils'
 import support from './utils/support'
+import closeable from './utils/closeable'
 
 interface CarouselOptions {
   index: number
@@ -39,6 +40,7 @@ export default class Carousel {
     this.handleStart = this.handleStart.bind(this)
     this.handleMove = this.handleMove.bind(this)
     this.handleEnd = this.handleEnd.bind(this)
+    this.changeOpacity = this.changeOpacity.bind(this)
     this.init()
   }
   init() {
@@ -52,6 +54,18 @@ export default class Carousel {
       this.container.addEventListener('mousedown', this.handleStart)
       window.addEventListener('mousemove', this.handleMove)
       window.addEventListener('mouseup', this.handleEnd)
+    }
+    this.container.querySelectorAll('.viewer-item').forEach((el) => {
+      closeable(el as HTMLDivElement, this.options.screenHeight, this.changeOpacity)
+    })
+  }
+  changeOpacity(opacity: number) {
+    this.container.style.opacity = `${opacity}`
+    if (opacity === 0) {
+      setTimeout(() => {
+        this.destroy()
+        this.container.parentNode?.removeChild(this.container)
+      }, 300)
     }
   }
   destroy() {
@@ -70,14 +84,14 @@ export default class Carousel {
   handleStart(e: TouchEvent | MouseEvent) {
     if (((e as TouchEvent).touches || []).length > 1) return
     e.preventDefault()
-    const { pageX } = getXY(e)
+    const { pageX } = getPageXY(e)
     this.startX = pageX
     this.isStart = true
     this.$wrap.transition(0)
   }
   handleMove(e: TouchEvent | MouseEvent) {
     if (!this.isStart) return
-    const { pageX } = getXY(e)
+    const { pageX } = getPageXY(e)
     let diffX = pageX - this.startX
 
     if (this.left >= 0 && diffX > 0) {
