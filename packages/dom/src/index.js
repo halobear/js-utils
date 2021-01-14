@@ -118,7 +118,7 @@ Object.assign($.fn, {
   transform(transform) {
     for (let i = 0;i < this.length;i += 1) {
       this[i].style.transform = transform
-      this[i].style.WebkitTransform = transform
+      this[i].style.webkitTransform = transform
     }
     return this
   },
@@ -129,7 +129,7 @@ Object.assign($.fn, {
     for (let i = 0;i < this.length;i += 1) {
       const t = typeof duration !== 'string' ? `${duration}ms` : duration
       this[i].style.transitionDuration = t
-      this[i].style.WebkitTransitionDuration = t
+      this[i].style.webkitTransitionDuration = t
     }
     return this
   },

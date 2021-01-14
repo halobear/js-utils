@@ -89,20 +89,6 @@ export default class Carousel {
 
     this.$wrap.transform(`translate3d(${diffX + this.left}px,0,0)`)
   }
-  resize() {
-    if (this.timer) {
-      clearTimeout(this.timer)
-    }
-    this.timer = setTimeout(() => {
-      const { gap, maxIndex } = this.options
-      const screenWidth = document.documentElement.clientWidth || document.body.clientWidth
-      this.options.screenWidth = screenWidth
-      this.$wrap.css({
-        width: `${(screenWidth + gap) * (maxIndex + 1) - gap}px`,
-      })
-      this.slideTo(0)
-    }, 150)
-  }
   handleEnd() {
     if (!this.isStart) return
     if (Math.abs(this.diffX) > 100) {
@@ -114,6 +100,20 @@ export default class Carousel {
     }
     this.diffX = 0
     this.slideTo(Math.min(this.options.maxIndex, Math.max(0, this.index)))
+  }
+  resize() {
+    if (this.timer) {
+      clearTimeout(this.timer)
+    }
+    this.timer = setTimeout(() => {
+      const { gap, maxIndex } = this.options
+      const screenWidth = document.documentElement.clientWidth || document.body.clientWidth
+      this.options.screenWidth = screenWidth
+      this.$wrap.css({
+        width: `${(screenWidth + gap) * (maxIndex + 1) - gap}px`,
+      })
+      this.slideTo(this.index)
+    }, 150)
   }
   slideTo(index = 0) {
     this.index = index

@@ -7,6 +7,7 @@ import Carousel from './core/Carousel'
 
 interface ViewerOptions {
   data: string[]
+  container?: HTMLDivElement
   gap?: number
   screenWidth?: number
   screenHeight?: number
@@ -14,12 +15,13 @@ interface ViewerOptions {
 }
 
 export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
-  const {
+  let {
     data,
     gap = 10,
     screenWidth = document.documentElement.clientWidth || document.body.clientWidth,
     screenHeight = document.documentElement.clientHeight || document.body.clientHeight,
     index = 0,
+    container,
   } = options
 
   const config = {
@@ -31,8 +33,10 @@ export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
     screenHeight,
   }
 
-  const container = createUI(data, config)
-  showViewer(container, e)
+  if (!container) {
+    container = createUI(data, config)
+    showViewer(container, e)
+  }
 
   const carousel = new Carousel(container, config)
 
