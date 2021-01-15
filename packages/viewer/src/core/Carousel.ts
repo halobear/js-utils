@@ -1,5 +1,5 @@
 import { HaloDom, default as $ } from '@halobear/dom'
-import { getPageXY } from './utils'
+import { getPointer } from './utils'
 import support from './utils/support'
 import closeable from './utils/closeable'
 
@@ -84,14 +84,14 @@ export default class Carousel {
   handleStart(e: TouchEvent | MouseEvent) {
     if (((e as TouchEvent).touches || []).length > 1) return
     e.preventDefault()
-    const { pageX } = getPageXY(e)
+    const { pageX } = getPointer(e)
     this.startX = pageX
     this.isStart = true
     this.$wrap.transition(0)
   }
   handleMove(e: TouchEvent | MouseEvent) {
     if (!this.isStart) return
-    const { pageX } = getPageXY(e)
+    const { pageX } = getPointer(e)
     let diffX = pageX - this.startX
 
     if (this.left >= 0 && diffX > 0) {
