@@ -1,10 +1,9 @@
-import { getWindow } from 'ssr-window'
+import { default as win } from './window'
 
 interface SupportWin extends Window {
   DocumentTouch?: any
 }
-
-const window = getWindow() as SupportWin
+const window = win as SupportWin
 
 export default {
   // passiveListener: (() => {

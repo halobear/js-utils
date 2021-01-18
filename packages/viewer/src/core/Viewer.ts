@@ -1,5 +1,5 @@
 import $, { HaloDom } from '@halobear/dom'
-import { now } from './utils'
+import { now } from './utils/util'
 import support from './utils/support'
 import * as Zoom from './utils/zoom'
 

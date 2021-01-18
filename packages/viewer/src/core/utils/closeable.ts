@@ -2,7 +2,7 @@
 
 import $, { HaloDom } from '@halobear/dom'
 import support from './support'
-import { getPointer } from './index'
+import { getPointer } from './util'
 
 type ChangeOpacityFn = (opacity: number) => void
 
@@ -45,7 +45,9 @@ class Closeable {
   touchstart(e: TouchEvent | MouseEvent) {
     if (((e as TouchEvent).touches || []).length > 1) return
     this.isStart = true
-    e.preventDefault()
+    if (e.cancelable) {
+      e.preventDefault()
+    }
     const xy = getPointer(e)
     this.startX = xy.pageX
     this.startY = xy.pageY
@@ -56,7 +58,9 @@ class Closeable {
   }
   touchmove(e: TouchEvent | MouseEvent) {
     if (!this.isStart) return
-    e.preventDefault()
+    if (e.cancelable) {
+      e.preventDefault()
+    }
     if (this.direction !== 'horizontal') {
       e.stopPropagation()
     }

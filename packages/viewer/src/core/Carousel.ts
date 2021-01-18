@@ -1,7 +1,8 @@
 import { HaloDom, default as $ } from '@halobear/dom'
-import { getPointer } from './utils'
+import { getPointer, easing } from './utils/util'
 import support from './utils/support'
 import closeable from './utils/closeable'
+import zoomable from './utils/zoomable'
 
 interface CarouselOptions {
   index: number
@@ -55,8 +56,13 @@ export default class Carousel {
       window.addEventListener('mousemove', this.handleMove)
       window.addEventListener('mouseup', this.handleEnd)
     }
+    // 手指下滑关闭
     this.container.querySelectorAll('.viewer-item').forEach((el) => {
       closeable(el as HTMLDivElement, this.options.screenHeight, this.changeOpacity)
+    })
+    // 双指缩放功能
+    this.container.querySelectorAll('.viewer-item .viewer-image').forEach((el) => {
+      zoomable(el as HTMLElement)
     })
   }
   changeOpacity(opacity: number) {
@@ -83,7 +89,9 @@ export default class Carousel {
   }
   handleStart(e: TouchEvent | MouseEvent) {
     if (((e as TouchEvent).touches || []).length > 1) return
-    e.preventDefault()
+    if (e.cancelable) {
+      e.preventDefault()
+    }
     const { pageX } = getPointer(e)
     this.startX = pageX
     this.isStart = true
@@ -93,15 +101,10 @@ export default class Carousel {
     if (!this.isStart) return
     const { pageX } = getPointer(e)
     let diffX = pageX - this.startX
-
-    if (this.left >= 0 && diffX > 0) {
-      diffX = this.easing(diffX)
-    } else if (this.left <= -this.options.maxLeft && diffX < 0) {
-      diffX = -this.easing(-diffX)
-    }
     this.diffX = diffX
+    const l = easing(diffX + this.left, -this.options.maxLeft, 0, 0.8)
 
-    this.$wrap.transform(`translate3d(${diffX + this.left}px,0,0)`)
+    this.$wrap.transform(`translate3d(${l}px,0,0)`)
   }
   handleEnd() {
     if (!this.isStart) return
@@ -135,21 +138,5 @@ export default class Carousel {
     this.left = -index * (this.options.screenWidth + this.options.gap)
     this.$wrap.transform(`translate3d(${this.left}px,0,0)`)
     this.isStart = false
-  }
-  /**
-   * 拖拽的缓动公式 - easeOutSine
-   * Link http://easings.net/zh-cn#
-   * t: current time（当前时间）；
-   * b: beginning value（初始值）；
-   * c: change in value（变化量）；
-   * d: duration（持续时间）。
-   */
-  easing(distance: number) {
-    const t = distance
-    const b = 0
-    const d = this.options.screenWidth // 允许拖拽的最大距离
-    const c = d / 2.5 // 提示标签最大有效拖拽距离
-
-    return c * Math.sin((t / d) * (Math.PI / 2)) + b
   }
 }
