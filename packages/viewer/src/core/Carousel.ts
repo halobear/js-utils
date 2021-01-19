@@ -1,5 +1,5 @@
 import { HaloDom, default as $ } from '@halobear/dom'
-import { getPointer, resistance } from './util'
+import { getPointer, range, resistance } from './util'
 import support from './support'
 import closeable from './closeable'
 import zoomable from './zoomable'
@@ -116,7 +116,8 @@ export default class Carousel {
       }
     }
     this.diffX = 0
-    this.slideTo(Math.min(this.options.maxIndex, Math.max(0, this.index)))
+    const current = range(this.index, 0, this.options.maxIndex)
+    this.slideTo(current)
   }
   resize() {
     if (this.timer) {

@@ -1,7 +1,7 @@
 import $, { HaloDom } from '@halobear/dom'
 
 import support from './support'
-import { getDistanceBetweenTouches, getPointer, resistance } from './util'
+import { getDistanceBetweenTouches, getPointer, resistance, range } from './util'
 
 interface ZoomOptions {
   maxRatio: number
@@ -149,9 +149,17 @@ class Zoomable {
     const lastClickTime = data.lastClickTime
     data.lastClickTime = touchEndTime
     if (timeDiff < 300 && touchEndTime - lastClickTime < 300) {
-      return this.scale === 1 ? this.zoomIn(e) : this.zoomOut()
+      this.scale === 1 ? this.zoomIn(e) : this.zoomOut()
+    } else {
+      this.onGestureEnd(e)
     }
-    this.onGestureEnd(e)
+    // 滑动超出距离返回
+    const currentX = range(this.currentX, this.minX, this.maxX)
+    const currentY = range(this.currentY, this.minY, this.maxY)
+    if (currentX === this.currentX && currentY === this.currentY) return
+    this.currentX = currentX
+    this.currentY = currentY
+    this.$wrap.transition(300).transform(`translate3d(${currentX}px, ${currentY}px,0)`)
   }
 
   onGestureStart(e: TouchEvent) {
@@ -173,7 +181,7 @@ class Zoomable {
 
   onGestureEnd(e: TouchEvent) {
     const { maxRatio, minRatio } = this.options
-    let scale = Math.max(Math.min(this.scale, maxRatio), minRatio)
+    let scale = range(this.scale, minRatio, maxRatio)
     if (Math.abs(scale - 1) < 0.05) scale = 1
     if (scale === 1) this.isScaling = false
     if (scale <= 1) {
@@ -200,8 +208,8 @@ class Zoomable {
     this.maxX = -this.minX
     this.maxY = -this.minY
 
-    this.currentX = Math.min(this.maxX, Math.max(diffX * scale, this.minX))
-    this.currentY = Math.min(this.maxY, Math.max(diffY * scale, this.minY))
+    this.currentX = range(diffX * scale, this.minX, this.maxX)
+    this.currentY = range(diffY * scale, this.minY, this.maxY)
     this.currentScale = this.scale = scale
     this.isScaling = true
     this.$wrap.transition(300).transform(`translate3d(${this.currentX}px, ${this.currentY}px,0)`)
