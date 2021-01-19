@@ -226,5 +226,8 @@ class Zoomable {
 }
 
 export default (el: HTMLElement, options?: Partial<ZoomOptions>) => {
-  new Zoomable(el, options)
+  const az = new Zoomable(el, options)
+  return function () {
+    az.destroy()
+  }
 }

@@ -14,6 +14,7 @@ interface CarouselOptions {
   onChange?: (index: number) => void
 }
 
+type voidFn = () => void
 export default class Carousel {
   private container: HTMLDivElement
   private counterEl: HTMLDivElement | null
@@ -31,6 +32,7 @@ export default class Carousel {
   private removeContainer: () => void
 
   timer: NodeJS.Timeout | null = null
+  destroyFns: voidFn[] = []
 
   constructor(container: HTMLDivElement, options: CarouselOptions, removeContainer: () => void) {
     this.container = container
@@ -68,11 +70,11 @@ export default class Carousel {
     }
     // 手指下滑关闭
     this.container.querySelectorAll('.viewer-item').forEach((el) => {
-      closeable(el as HTMLDivElement, this.options.screenHeight, this.changeOpacity)
+      this.destroyFns.push(closeable(el as HTMLDivElement, this.options.screenHeight, this.changeOpacity))
     })
     // 双指缩放功能
     this.container.querySelectorAll('.viewer-item .viewer-image').forEach((el) => {
-      zoomable(el as HTMLElement)
+      this.destroyFns.push(zoomable(el as HTMLElement))
     })
   }
   changeOpacity(opacity: number) {
@@ -95,6 +97,10 @@ export default class Carousel {
       window.removeEventListener('mousemove', this.handleMove)
       window.removeEventListener('mouseup', this.handleEnd)
     }
+    // 清空关闭和缩放事件
+    this.destroyFns.forEach((destory) => {
+      destory()
+    })
     setTimeout(() => {
       this.removeContainer()
     })
@@ -146,12 +152,12 @@ export default class Carousel {
       this.slideTo(this.index)
     }, 150)
   }
-  slideTo(index = 0) {
+  slideTo(index = 0, duration = 300) {
     if (index !== this.index && typeof this.options.onChange === 'function') {
       this.options.onChange(index)
     }
     this.index = index
-    this.$wrap.transition(300)
+    this.$wrap.transition(duration)
     this.left = -index * (this.options.screenWidth + this.options.gap)
     this.$wrap.transform(`translate3d(${this.left}px,0,0)`)
     this.isStart = false

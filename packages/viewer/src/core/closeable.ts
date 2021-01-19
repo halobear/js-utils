@@ -33,13 +33,25 @@ class Closeable {
   init() {
     if (support.touch) {
       this.el.addEventListener('touchstart', this.touchstart)
-      this.el.addEventListener('touchmove', this.touchmove)
-      this.el.addEventListener('touchend', this.touchend)
-      this.el.addEventListener('touchcancel', this.touchend)
+      window.addEventListener('touchmove', this.touchmove)
+      window.addEventListener('touchend', this.touchend)
+      window.addEventListener('touchcancel', this.touchend)
     } else {
       this.el.addEventListener('mousedown', this.touchstart)
-      this.el.addEventListener('mousemove', this.touchmove)
-      this.el.addEventListener('mouseup', this.touchend)
+      window.addEventListener('mousemove', this.touchmove)
+      window.addEventListener('mouseup', this.touchend)
+    }
+  }
+  destroy() {
+    if (support.touch) {
+      this.el.removeEventListener('touchstart', this.touchstart)
+      window.removeEventListener('touchmove', this.touchmove)
+      window.removeEventListener('touchend', this.touchend)
+      window.removeEventListener('touchcancel', this.touchend)
+    } else {
+      this.el.removeEventListener('mousedown', this.touchstart)
+      window.removeEventListener('mousemove', this.touchmove)
+      window.removeEventListener('mouseup', this.touchend)
     }
   }
   touchstart(e: TouchEvent | MouseEvent) {
@@ -96,5 +108,8 @@ class Closeable {
 }
 
 export default (el: HTMLDivElement, screenHeight: number, changeOpacity: ChangeOpacityFn) => {
-  new Closeable(el, screenHeight, changeOpacity)
+  const cba = new Closeable(el, screenHeight, changeOpacity)
+  return function () {
+    cba.destroy()
+  }
 }
