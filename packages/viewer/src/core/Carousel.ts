@@ -1,8 +1,8 @@
 import { HaloDom, default as $ } from '@halobear/dom'
-import { getPointer, easing } from './utils/util'
-import support from './utils/support'
-import closeable from './utils/closeable'
-import zoomable from './utils/zoomable'
+import { getPointer, resistance } from './util'
+import support from './support'
+import closeable from './closeable'
+import zoomable from './zoomable'
 
 interface CarouselOptions {
   index: number
@@ -102,8 +102,8 @@ export default class Carousel {
     const { pageX } = getPointer(e)
     let diffX = pageX - this.startX
     this.diffX = diffX
-    const l = easing(diffX + this.left, -this.options.maxLeft, 0, 0.8)
-
+    // 设置阻力
+    const l = resistance(diffX + this.left, -this.options.maxLeft, 0, 0.8)
     this.$wrap.transform(`translate3d(${l}px,0,0)`)
   }
   handleEnd() {

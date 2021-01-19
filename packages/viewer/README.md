@@ -1,3 +1,3 @@
-## zoom
+## @halobear/viewer
 
-zoom
+图片预览插件

@@ -1,8 +1,8 @@
 import './index.css'
 
 import $ from '@halobear/dom'
-import createUI from './core/utils/createUI'
-import showViewer from './core/utils/showViewer'
+import createUI from './core/createUI'
+import { showViewer } from './core/util'
 import Carousel from './core/Carousel'
 
 interface ViewerOptions {
