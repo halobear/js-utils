@@ -11,10 +11,12 @@ interface CarouselOptions {
   gap: number
   screenWidth: number
   screenHeight: number
+  onChange?: (index: number) => void
 }
 
 export default class Carousel {
   private container: HTMLDivElement
+  private counterEl: HTMLDivElement | null
 
   private options: CarouselOptions
   private index: number
@@ -26,16 +28,21 @@ export default class Carousel {
   private diffX = 0
   private isStart = false
 
+  private removeContainer: () => void
+
   timer: NodeJS.Timeout | null = null
 
-  constructor(container: HTMLDivElement, options: CarouselOptions) {
+  constructor(container: HTMLDivElement, options: CarouselOptions, removeContainer: () => void) {
     this.container = container
 
     this.options = options
     this.index = options.index
     this.left = options.index * options.screenWidth
 
+    this.removeContainer = removeContainer
+
     this.$wrap = $('.viewer-wrap', container)
+    this.counterEl = container.querySelector('.num')
 
     this.resize = this.resize.bind(this)
     this.handleStart = this.handleStart.bind(this)
@@ -45,6 +52,9 @@ export default class Carousel {
     this.init()
   }
   init() {
+    if (this.index) {
+      this.slideTo(this.index)
+    }
     window.addEventListener('resize', this.resize)
     if (support.touch) {
       this.container.addEventListener('touchstart', this.handleStart)
@@ -66,12 +76,11 @@ export default class Carousel {
     })
   }
   changeOpacity(opacity: number) {
-    this.container.style.opacity = `${opacity}`
     if (opacity === 0) {
-      setTimeout(() => {
-        this.destroy()
-        this.container.parentNode?.removeChild(this.container)
-      }, 300)
+      this.container.style.opacity = '1'
+      this.destroy()
+    } else {
+      this.container.style.opacity = `${opacity}`
     }
   }
   destroy() {
@@ -86,6 +95,9 @@ export default class Carousel {
       window.removeEventListener('mousemove', this.handleMove)
       window.removeEventListener('mouseup', this.handleEnd)
     }
+    setTimeout(() => {
+      this.removeContainer()
+    })
   }
   handleStart(e: TouchEvent | MouseEvent) {
     if (((e as TouchEvent).touches || []).length > 1) return
@@ -108,15 +120,16 @@ export default class Carousel {
   }
   handleEnd() {
     if (!this.isStart) return
+    let index = this.index
     if (Math.abs(this.diffX) > 100) {
       if (this.diffX > 0) {
-        this.index -= 1
+        index -= 1
       } else {
-        this.index += 1
+        index += 1
       }
     }
     this.diffX = 0
-    const current = range(this.index, 0, this.options.maxIndex)
+    const current = range(index, 0, this.options.maxIndex)
     this.slideTo(current)
   }
   resize() {
@@ -134,10 +147,16 @@ export default class Carousel {
     }, 150)
   }
   slideTo(index = 0) {
+    if (index !== this.index && typeof this.options.onChange === 'function') {
+      this.options.onChange(index)
+    }
     this.index = index
     this.$wrap.transition(300)
     this.left = -index * (this.options.screenWidth + this.options.gap)
     this.$wrap.transform(`translate3d(${this.left}px,0,0)`)
     this.isStart = false
+    if (this.counterEl) {
+      this.counterEl.textContent = `${index + 1}`
+    }
   }
 }

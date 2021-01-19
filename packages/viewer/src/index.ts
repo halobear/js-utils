@@ -1,8 +1,7 @@
 import './index.css'
 
-import $ from '@halobear/dom'
 import createUI from './core/createUI'
-import { showViewer } from './core/util'
+import { showViewer, hideViewer } from './core/util'
 import Carousel from './core/Carousel'
 
 interface ViewerOptions {
@@ -12,6 +11,7 @@ interface ViewerOptions {
   screenWidth?: number
   screenHeight?: number
   index?: number
+  onChange?: (index: number) => void
 }
 
 export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
@@ -22,6 +22,7 @@ export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
     screenHeight = document.documentElement.clientHeight || document.body.clientHeight,
     index = 0,
     container,
+    onChange,
   } = options
 
   const config = {
@@ -31,6 +32,7 @@ export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
     gap,
     screenWidth,
     screenHeight,
+    onChange,
   }
 
   if (!container) {
@@ -38,10 +40,25 @@ export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
     showViewer(container, e)
   }
 
-  const carousel = new Carousel(container, config)
-
-  return () => {
-    carousel.destroy()
-    $(container).remove()
+  const removeContainer = function () {
+    container && hideViewer(container, e)
   }
+
+  const carousel = new Carousel(container, config, removeContainer)
+
+  const destroy = () => {
+    carousel.destroy()
+  }
+
+  const header = container.querySelector('.viewer-header') as HTMLDivElement
+  header.ontouchstart = function (e) {
+    e.stopPropagation()
+  }
+  const closeBtn = container.querySelector('.viewer-close') as HTMLDivElement
+  closeBtn.onclick = function (e) {
+    e.stopPropagation()
+    destroy()
+  }
+
+  return destroy
 }

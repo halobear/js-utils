@@ -81,12 +81,13 @@ class Closeable {
     this.$el.transition(300)
     if (this.direction === 'vertical') {
       if (this.opacity < 0.6) {
-        this.diffY = this.screenHeight
+        // this.diffY = this.screenHeight
         this.opacity = 0
       } else {
-        this.diffY = 0
+        // this.diffY = 0
         this.opacity = 1
       }
+      this.diffY = 0
       this.$el.transform(`translate3d(0,${this.diffY}px,0)`)
       this.changeOpacity(this.opacity)
     }

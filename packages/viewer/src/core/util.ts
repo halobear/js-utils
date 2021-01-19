@@ -47,7 +47,7 @@ export function range(value = 0, min = 0, max = 100) {
 }
 
 // 显示图片预览
-export function showViewer(container: HTMLElement, e?: TouchEvent | MouseEvent) {
+export function showViewer(container: HTMLDivElement, e?: TouchEvent | MouseEvent) {
   const clientWidth = document.documentElement.clientWidth || document.body.clientWidth
   const clientHeight = document.documentElement.clientHeight || document.body.clientHeight
   const { pageX, pageY } = e ? getPointer(e) : { pageX: clientWidth / 2, pageY: clientHeight / 2 }
@@ -56,7 +56,28 @@ export function showViewer(container: HTMLElement, e?: TouchEvent | MouseEvent) 
   const $container = $(container)
   $container.transition(0).transform(`translate3d(${diffX}px, ${diffY}px,0) scale(0)`).css({ opacity: '0' })
   setTimeout(() => {
-    $container.transition(300).transform(`translate3d(0,0,0) scale(1)`).css({ opacity: '1' })
+    $container.transition(150).transform(`translate3d(0,0,0) scale(1)`).css({ opacity: '1' })
+  })
+}
+
+// 隐藏图片预览
+export function hideViewer(container: HTMLDivElement, e?: TouchEvent | MouseEvent) {
+  const $container = $(container)
+  if (!e) {
+    $container.remove()
+    return
+  }
+  const clientWidth = document.documentElement.clientWidth || document.body.clientWidth
+  const clientHeight = document.documentElement.clientHeight || document.body.clientHeight
+  const { pageX, pageY } = e ? getPointer(e) : { pageX: clientWidth / 2, pageY: clientHeight / 2 }
+  const diffX = pageX - clientWidth / 2
+  const diffY = pageY - clientHeight / 2
+  container.classList.add('hide')
+  setTimeout(() => {
+    $container.transition(300).transform(`translate3d(${diffX}px, ${diffY}px,0) scale(0)`).css({ opacity: '0' })
+    $container.on('webkitTransitionEnd transitionend', function () {
+      container.parentNode && $container.remove()
+    })
   })
 }
 
