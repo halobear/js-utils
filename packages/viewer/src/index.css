@@ -41,6 +41,10 @@
   width: 44px;
   height: 44px;
   position: relative;
+  cursor: pointer;
+}
+.viewer--container .viewer-close:hover {
+  opacity: 0.8;
 }
 .viewer--container .viewer-close:active {
   opacity: 0.6;
