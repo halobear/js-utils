@@ -23,7 +23,13 @@
     "rollup": "^2.33.3",
     "rollup-plugin-terser": "^7.0.2"
   },
-  "keywords": [],
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "balajs"
+  ],
   "author": "luzhongk@126.com",
   "license": "MIT",
   "repository": {
