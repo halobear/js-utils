@@ -1,7 +1,7 @@
 import $, { HaloDom } from '@halobear/dom'
 
 import support from './support'
-import { getDistanceBetweenTouches, getPointer, resistance, range } from './util'
+import { getDistanceBetweenTouches, getPointer, resistance, range, listenOption } from './util'
 
 interface ZoomOptions {
   maxRatio: number
@@ -64,10 +64,11 @@ class Zoomable {
 
   init() {
     if (!support.touch) return
-    this.wrap.addEventListener('touchstart', this.onTouchStart)
-    this.wrap.addEventListener('touchmove', this.onTouchMove)
-    this.wrap.addEventListener('touchend', this.onTouchEnd)
-    this.wrap.addEventListener('touchcancel', this.onTouchEnd)
+    const o = listenOption()
+    this.wrap.addEventListener('touchstart', this.onTouchStart, o)
+    this.wrap.addEventListener('touchmove', this.onTouchMove, o)
+    this.wrap.addEventListener('touchend', this.onTouchEnd, o)
+    this.wrap.addEventListener('touchcancel', this.onTouchEnd, o)
   }
 
   destroy() {

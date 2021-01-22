@@ -2,7 +2,7 @@
 
 import $, { HaloDom } from '@halobear/dom'
 import support from './support'
-import { getPointer } from './util'
+import { getPointer, listenOption } from './util'
 
 type ChangeOpacityFn = (opacity: number) => void
 
@@ -31,15 +31,16 @@ class Closeable {
     this.init()
   }
   init() {
+    const o = listenOption()
     if (support.touch) {
-      this.el.addEventListener('touchstart', this.touchstart)
-      window.addEventListener('touchmove', this.touchmove)
-      window.addEventListener('touchend', this.touchend)
-      window.addEventListener('touchcancel', this.touchend)
+      this.el.addEventListener('touchstart', this.touchstart, o)
+      window.addEventListener('touchmove', this.touchmove, o)
+      window.addEventListener('touchend', this.touchend, o)
+      window.addEventListener('touchcancel', this.touchend, o)
     } else {
-      this.el.addEventListener('mousedown', this.touchstart)
-      window.addEventListener('mousemove', this.touchmove)
-      window.addEventListener('mouseup', this.touchend)
+      this.el.addEventListener('mousedown', this.touchstart, o)
+      window.addEventListener('mousemove', this.touchmove, o)
+      window.addEventListener('mouseup', this.touchend, o)
     }
   }
   destroy() {
@@ -109,7 +110,5 @@ class Closeable {
 
 export default (el: HTMLDivElement, screenHeight: number, changeOpacity: ChangeOpacityFn) => {
   const cba = new Closeable(el, screenHeight, changeOpacity)
-  return function () {
-    cba.destroy()
-  }
+  return () => cba.destroy()
 }

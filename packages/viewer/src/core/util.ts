@@ -1,8 +1,10 @@
 import $ from '@halobear/dom'
+import support from './support'
 
 // 页面pageX, pageY
 export const getPointer = (e: TouchEvent | MouseEvent) => {
-  const { pageX, pageY } = 'changedTouches' in e ? (e as TouchEvent).changedTouches[0] : (e as MouseEvent)
+  const { pageX, pageY } =
+    'changedTouches' in e ? (e as TouchEvent).changedTouches[0] : (e as MouseEvent)
   return { pageX, pageY }
 }
 
@@ -54,7 +56,10 @@ export function showViewer(container: HTMLDivElement, e?: TouchEvent | MouseEven
   const diffX = pageX - clientWidth / 2
   const diffY = pageY - clientHeight / 2
   const $container = $(container)
-  $container.transition(0).transform(`translate3d(${diffX}px, ${diffY}px,0) scale(0)`).css({ opacity: '0' })
+  $container
+    .transition(0)
+    .transform(`translate3d(${diffX}px, ${diffY}px,0) scale(0)`)
+    .css({ opacity: '0' })
   setTimeout(() => {
     $container.transition(150).transform(`translate3d(0,0,0) scale(1)`).css({ opacity: '1' })
   })
@@ -74,7 +79,10 @@ export function hideViewer(container: HTMLDivElement, e?: TouchEvent | MouseEven
   const diffY = pageY - clientHeight / 2
   container.classList.add('hide')
   setTimeout(() => {
-    $container.transition(300).transform(`translate3d(${diffX}px, ${diffY}px,0) scale(0)`).css({ opacity: '0' })
+    $container
+      .transition(300)
+      .transform(`translate3d(${diffX}px, ${diffY}px,0) scale(0)`)
+      .css({ opacity: '0' })
     $container.on('webkitTransitionEnd transitionend', function () {
       container.parentNode && $container.remove()
     })
@@ -130,3 +138,7 @@ export function hideViewer(container: HTMLDivElement, e?: TouchEvent | MouseEven
 //   }
 //   return curTransform || 0
 // }
+
+export function listenOption(capture = false, passive = false) {
+  return support.passive ? { passive, capture } : capture
+}

@@ -36,7 +36,9 @@ var viewer = (function () {
       var container = document.createElement('div');
       container.className = 'viewer--container';
       var len = maxIndex + 1;
-      var counter = len > 1 ? "<div class=\"counter\"><span class=\"num\">" + (index + 1) + "</span><span> / </span><span>" + len + "</span></div>" : '';
+      var counter = len > 1
+          ? "<div class=\"counter\"><span class=\"num\">" + (index + 1) + "</span><span> / </span><span>" + len + "</span></div>"
+          : '<div class="counter"></div>';
       var header = "<div class=\"viewer-header\">" + counter + "<div class=\"viewer-close\"></div></div>";
       var items = data.map(function (url, i) {
           var g = i === len - 1 ? 0 : gap;
@@ -49,6 +51,28 @@ var viewer = (function () {
   }
 
   var t="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{};var n,e,r=(function(n){var e,r;e=t,r=function(t,n,e){function r(n,e,i){return i=Object.create(r.fn),n&&i.push.apply(i,n.addEventListener?[n]:""+n===n?/</.test(n)?((e=t.createElement(e)).innerHTML=n,e.children):e?(e=r(e)[0])?e.querySelectorAll(n):i:t.querySelectorAll(n):n),i}return r.fn=[],r.one=function(t,n){return r(t,n)[0]||null},r}(document),n.exports?n.exports=r:e.$=r;}(e={path:n,exports:{},require:function(t,n){return function(){throw new Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs")}(null==n&&e.path)}},e.exports),e.exports);Object.assign(r.fn,{append:function(t){return t instanceof HTMLElement||(t=t[0]),this.forEach((function(n){n.appendChild(t);})),this},remove:function(){return this.forEach((function(t){t.parentNode.removeChild(t);})),this},find:function(t){return r(t,this)},addClass:function(t){return this.forEach((function(n){n.classList.add(t);})),this},removeClass:function(t){return this.forEach((function(n){n.classList.remove(t);})),this},eq:function(t){return r(this[t])},show:function(){return this.forEach((function(t){t.style.display="block";})),this},hide:function(){return this.forEach((function(t){t.style.display="none";})),this},html:function(t){return this.forEach((function(n){n.innerHTML=t;})),this},css:function(t){var n=this;return Object.keys(t).forEach((function(e){n.forEach((function(n){n.style[e]=t[e];}));})),this},transform:function(t){for(var n=0;n<this.length;n+=1)this[n].style.transform=t,this[n].style.webkitTransform=t;return this},transition:function(t){for(var n=0;n<this.length;n+=1){var e="string"!=typeof t?t+"ms":t;this[n].style.transitionDuration=e,this[n].style.webkitTransitionDuration=e;}return this},on:function(t,n,e){var r="string"==typeof n&&"function"==typeof e;return r||(e=n),this.forEach((function(i){t.split(" ").forEach((function(t){i.addEventListener(t,(function(t){r?this.contains(t.target.closest(n))&&e.call(t.target,t):e.call(this,t);}));}));})),this},off:function(t,n,e){return "function"==typeof n&&(e=n,n=null),this.forEach((function(r){t.split(" ").forEach((function(t){"string"==typeof n?r.querySelectorAll(n).forEach((function(n){n.removeEventListener(t,e);})):r.removeEventListener(t,e);}));})),this},index:function(){var t=this[0],n=t.parentNode;return Array.prototype.indexOf.call(n.children,t)},offAll:function(){var t=this;return this.forEach((function(n,e){var r=n.cloneNode(!0);n.parentNode.replaceChild(r,n),t[e]=r;})),this},val:function(){var t=arguments;return arguments.length?(this.forEach((function(n){n.value=t[0];})),this):this[0].value},attr:function(){var t=arguments;if("object"==typeof arguments[0]){var n=arguments[0],e=this;return Object.keys(n).forEach((function(t){e.forEach((function(e){e.setAttribute(t,n[t]);}));})),this}return "string"==typeof arguments[0]&&arguments.length<2?this[0].getAttribute(arguments[0]):(this.forEach((function(n){n.setAttribute(t[0],t[1]);})),this)}}),Object.assign(r,{noop:function(){},getStyle:function(t,n){var e,r=(t.ownerDocument||document).defaultView;return r&&r.getComputedStyle?(n=n.replace(/([A-Z])/g,"-$1").toLowerCase(),r.getComputedStyle(t,null).getPropertyValue(n)):t.currentStyle?(n=n.replace(/\-(\w)/g,(function(t,n){return n.toUpperCase()})),e=t.currentStyle[n],/^\d+(em|pt|%|ex)?$/i.test(e)?function(n){var e=t.style.left,r=t.runtimeStyle.left;return t.runtimeStyle.left=t.currentStyle.left,t.style.left=n||0,n=t.style.pixelLeft+"px",t.style.left=e,t.runtimeStyle.left=r,n}(e):e):void 0}});
+
+  var supportTouch = 'ontouchstart' in (typeof window !== 'undefined' ? window : {});
+  var supportsPassive = (function () {
+      var supportsPassive = false;
+      try {
+          var opts = Object.defineProperty({}, 'passive', {
+              // eslint-disable-next-line
+              get: function () {
+                  supportsPassive = true;
+              },
+          });
+          window.addEventListener('testPassiveListener', function () { }, opts);
+      }
+      catch (e) {
+          // No support
+      }
+      return supportsPassive;
+  })();
+  var support = {
+      touch: supportTouch,
+      passive: supportsPassive,
+  };
 
   // 页面pageX, pageY
   var getPointer = function (e) {
@@ -110,7 +134,10 @@ var viewer = (function () {
       var diffX = pageX - clientWidth / 2;
       var diffY = pageY - clientHeight / 2;
       var $container = r(container);
-      $container.transition(0).transform("translate3d(" + diffX + "px, " + diffY + "px,0) scale(0)").css({ opacity: '0' });
+      $container
+          .transition(0)
+          .transform("translate3d(" + diffX + "px, " + diffY + "px,0) scale(0)")
+          .css({ opacity: '0' });
       setTimeout(function () {
           $container.transition(150).transform("translate3d(0,0,0) scale(1)").css({ opacity: '1' });
       });
@@ -129,7 +156,10 @@ var viewer = (function () {
       var diffY = pageY - clientHeight / 2;
       container.classList.add('hide');
       setTimeout(function () {
-          $container.transition(300).transform("translate3d(" + diffX + "px, " + diffY + "px,0) scale(0)").css({ opacity: '0' });
+          $container
+              .transition(300)
+              .transform("translate3d(" + diffX + "px, " + diffY + "px,0) scale(0)")
+              .css({ opacity: '0' });
           $container.on('webkitTransitionEnd transitionend', function () {
               container.parentNode && $container.remove();
           });
@@ -181,26 +211,11 @@ var viewer = (function () {
   //   }
   //   return curTransform || 0
   // }
-
-  var supportTouch = 'ontouchstart' in (typeof window !== 'undefined' ? window : {});
-  // const supportsPassive = (() => {
-  //   let supportsPassive = false
-  //   try {
-  //     const opts = Object.defineProperty({}, 'passive', {
-  //       // eslint-disable-next-line
-  //       get() {
-  //         supportsPassive = true
-  //       },
-  //     })
-  //     window.addEventListener('testPassiveListener', () => {}, opts)
-  //   } catch (e) {
-  //     // No support
-  //   }
-  //   return supportsPassive
-  // })()
-  var support = {
-      touch: supportTouch,
-  };
+  function listenOption(capture, passive) {
+      if (capture === void 0) { capture = false; }
+      if (passive === void 0) { passive = false; }
+      return support.passive ? { passive: passive, capture: capture } : capture;
+  }
 
   // 下滑关闭
   var Closeable = /** @class */ (function () {
@@ -223,16 +238,17 @@ var viewer = (function () {
           this.init();
       }
       Closeable.prototype.init = function () {
+          var o = listenOption();
           if (support.touch) {
-              this.el.addEventListener('touchstart', this.touchstart);
-              window.addEventListener('touchmove', this.touchmove);
-              window.addEventListener('touchend', this.touchend);
-              window.addEventListener('touchcancel', this.touchend);
+              this.el.addEventListener('touchstart', this.touchstart, o);
+              window.addEventListener('touchmove', this.touchmove, o);
+              window.addEventListener('touchend', this.touchend, o);
+              window.addEventListener('touchcancel', this.touchend, o);
           }
           else {
-              this.el.addEventListener('mousedown', this.touchstart);
-              window.addEventListener('mousemove', this.touchmove);
-              window.addEventListener('mouseup', this.touchend);
+              this.el.addEventListener('mousedown', this.touchstart, o);
+              window.addEventListener('mousemove', this.touchmove, o);
+              window.addEventListener('mouseup', this.touchend, o);
           }
       };
       Closeable.prototype.destroy = function () {
@@ -307,9 +323,7 @@ var viewer = (function () {
   }());
   var closeable = (function (el, screenHeight, changeOpacity) {
       var cba = new Closeable(el, screenHeight, changeOpacity);
-      return function () {
-          cba.destroy();
-      };
+      return function () { return cba.destroy(); };
   });
 
   /*! *****************************************************************************
@@ -384,10 +398,11 @@ var viewer = (function () {
       Zoomable.prototype.init = function () {
           if (!support.touch)
               return;
-          this.wrap.addEventListener('touchstart', this.onTouchStart);
-          this.wrap.addEventListener('touchmove', this.onTouchMove);
-          this.wrap.addEventListener('touchend', this.onTouchEnd);
-          this.wrap.addEventListener('touchcancel', this.onTouchEnd);
+          var o = listenOption();
+          this.wrap.addEventListener('touchstart', this.onTouchStart, o);
+          this.wrap.addEventListener('touchmove', this.onTouchMove, o);
+          this.wrap.addEventListener('touchend', this.onTouchEnd, o);
+          this.wrap.addEventListener('touchcancel', this.onTouchEnd, o);
       };
       Zoomable.prototype.destroy = function () {
           if (!support.touch)
@@ -567,6 +582,7 @@ var viewer = (function () {
           this.handleStart = this.handleStart.bind(this);
           this.handleMove = this.handleMove.bind(this);
           this.handleEnd = this.handleEnd.bind(this);
+          this.handleKeyup = this.handleKeyup.bind(this);
           this.changeOpacity = this.changeOpacity.bind(this);
           this.init();
       }
@@ -575,18 +591,20 @@ var viewer = (function () {
           if (this.index) {
               this.slideTo(this.index);
           }
-          window.addEventListener('resize', this.resize);
+          window.addEventListener('resize', this.resize, listenOption(true));
+          var o = listenOption();
           if (support.touch) {
-              this.container.addEventListener('touchstart', this.handleStart);
-              window.addEventListener('touchmove', this.handleMove);
-              window.addEventListener('touchend', this.handleEnd);
-              window.addEventListener('touchcancel', this.handleEnd);
+              this.container.addEventListener('touchstart', this.handleStart, o);
+              window.addEventListener('touchmove', this.handleMove, o);
+              window.addEventListener('touchend', this.handleEnd, o);
+              window.addEventListener('touchcancel', this.handleEnd, o);
           }
           else {
-              this.container.addEventListener('mousedown', this.handleStart);
-              window.addEventListener('mousemove', this.handleMove);
-              window.addEventListener('mouseup', this.handleEnd);
+              this.container.addEventListener('mousedown', this.handleStart, o);
+              window.addEventListener('mousemove', this.handleMove, o);
+              window.addEventListener('mouseup', this.handleEnd, o);
           }
+          window.addEventListener('keyup', this.handleKeyup, o);
           // 手指下滑关闭
           this.container.querySelectorAll('.viewer-item').forEach(function (el) {
               _this.destroyFns.push(closeable(el, _this.options.screenHeight, _this.changeOpacity));
@@ -595,15 +613,6 @@ var viewer = (function () {
           this.container.querySelectorAll('.viewer-item .viewer-image').forEach(function (el) {
               _this.destroyFns.push(zoomable(el));
           });
-      };
-      Carousel.prototype.changeOpacity = function (opacity) {
-          if (opacity === 0) {
-              this.container.style.opacity = '1';
-              this.destroy();
-          }
-          else {
-              this.container.style.opacity = "" + opacity;
-          }
       };
       Carousel.prototype.destroy = function () {
           var _this = this;
@@ -619,6 +628,7 @@ var viewer = (function () {
               window.removeEventListener('mousemove', this.handleMove);
               window.removeEventListener('mouseup', this.handleEnd);
           }
+          window.removeEventListener('keyup', this.handleKeyup);
           // 清空关闭和缩放事件
           this.destroyFns.forEach(function (destory) {
               destory();
@@ -626,6 +636,25 @@ var viewer = (function () {
           setTimeout(function () {
               _this.removeContainer();
           });
+      };
+      Carousel.prototype.handleKeyup = function (e) {
+          var maxIndex = this.options.maxIndex;
+          console.log(e.key, maxIndex);
+          if (e.key === 'ArrowLeft') {
+              return this.slideTo(this.index ? this.index - 1 : maxIndex);
+          }
+          if (e.key === 'ArrowRight') {
+              return this.slideTo(this.index === maxIndex ? 0 : this.index + 1);
+          }
+      };
+      Carousel.prototype.changeOpacity = function (opacity) {
+          if (opacity === 0) {
+              this.container.style.opacity = '1';
+              this.destroy();
+          }
+          else {
+              this.container.style.opacity = "" + opacity;
+          }
       };
       Carousel.prototype.handleStart = function (e) {
           if ((e.touches || []).length > 1)

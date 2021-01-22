@@ -1,6 +1,6 @@
 ## @halobear/viewer
 
-图片预览插件
+类似微信图片预览插件，支持缩放、手势、方向键翻页
 
 [➡️ Live DEMO](https://halobear.github.io/js-utils/viewer/index.html)
 

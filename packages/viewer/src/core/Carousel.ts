@@ -1,5 +1,5 @@
 import { HaloDom, default as $ } from '@halobear/dom'
-import { getPointer, range, resistance } from './util'
+import { getPointer, range, resistance, listenOption } from './util'
 import support from './support'
 import closeable from './closeable'
 import zoomable from './zoomable'
@@ -50,6 +50,7 @@ export default class Carousel {
     this.handleStart = this.handleStart.bind(this)
     this.handleMove = this.handleMove.bind(this)
     this.handleEnd = this.handleEnd.bind(this)
+    this.handleKeyup = this.handleKeyup.bind(this)
     this.changeOpacity = this.changeOpacity.bind(this)
     this.init()
   }
@@ -57,33 +58,29 @@ export default class Carousel {
     if (this.index) {
       this.slideTo(this.index)
     }
-    window.addEventListener('resize', this.resize)
+    window.addEventListener('resize', this.resize, listenOption(true))
+    const o = listenOption()
     if (support.touch) {
-      this.container.addEventListener('touchstart', this.handleStart)
-      window.addEventListener('touchmove', this.handleMove)
-      window.addEventListener('touchend', this.handleEnd)
-      window.addEventListener('touchcancel', this.handleEnd)
+      this.container.addEventListener('touchstart', this.handleStart, o)
+      window.addEventListener('touchmove', this.handleMove, o)
+      window.addEventListener('touchend', this.handleEnd, o)
+      window.addEventListener('touchcancel', this.handleEnd, o)
     } else {
-      this.container.addEventListener('mousedown', this.handleStart)
-      window.addEventListener('mousemove', this.handleMove)
-      window.addEventListener('mouseup', this.handleEnd)
+      this.container.addEventListener('mousedown', this.handleStart, o)
+      window.addEventListener('mousemove', this.handleMove, o)
+      window.addEventListener('mouseup', this.handleEnd, o)
     }
+    window.addEventListener('keyup', this.handleKeyup, o)
     // 手指下滑关闭
     this.container.querySelectorAll('.viewer-item').forEach((el) => {
-      this.destroyFns.push(closeable(el as HTMLDivElement, this.options.screenHeight, this.changeOpacity))
+      this.destroyFns.push(
+        closeable(el as HTMLDivElement, this.options.screenHeight, this.changeOpacity)
+      )
     })
     // 双指缩放功能
     this.container.querySelectorAll('.viewer-item .viewer-image').forEach((el) => {
       this.destroyFns.push(zoomable(el as HTMLElement))
     })
-  }
-  changeOpacity(opacity: number) {
-    if (opacity === 0) {
-      this.container.style.opacity = '1'
-      this.destroy()
-    } else {
-      this.container.style.opacity = `${opacity}`
-    }
   }
   destroy() {
     window.removeEventListener('resize', this.resize)
@@ -97,6 +94,7 @@ export default class Carousel {
       window.removeEventListener('mousemove', this.handleMove)
       window.removeEventListener('mouseup', this.handleEnd)
     }
+    window.removeEventListener('keyup', this.handleKeyup)
     // 清空关闭和缩放事件
     this.destroyFns.forEach((destory) => {
       destory()
@@ -104,6 +102,28 @@ export default class Carousel {
     setTimeout(() => {
       this.removeContainer()
     })
+  }
+  handleKeyup(e: KeyboardEvent) {
+    const { maxIndex } = this.options
+
+    console.log(e.key, maxIndex)
+    if (e.key === 'ArrowLeft') {
+      return this.slideTo(this.index ? this.index - 1 : maxIndex)
+    }
+    if (e.key === 'ArrowRight') {
+      return this.slideTo(this.index === maxIndex ? 0 : this.index + 1)
+    }
+    if (e.key === 'Escape') {
+      return this.destroy()
+    }
+  }
+  changeOpacity(opacity: number) {
+    if (opacity === 0) {
+      this.container.style.opacity = '1'
+      this.destroy()
+    } else {
+      this.container.style.opacity = `${opacity}`
+    }
   }
   handleStart(e: TouchEvent | MouseEvent) {
     if (((e as TouchEvent).touches || []).length > 1) return
