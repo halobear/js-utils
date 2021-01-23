@@ -100,6 +100,7 @@ export default class Carousel {
       destory()
     })
     setTimeout(() => {
+      $(this.container).transition(300)
       this.removeContainer()
     })
   }
@@ -119,7 +120,7 @@ export default class Carousel {
   }
   changeOpacity(opacity: number) {
     if (opacity === 0) {
-      this.container.style.opacity = '1'
+      this.container.style.opacity = '0'
       this.destroy()
     } else {
       this.container.style.opacity = `${opacity}`
