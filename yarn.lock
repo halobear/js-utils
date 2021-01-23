@@ -7217,11 +7217,6 @@ sshpk@^1.7.0:
     safer-buffer "^2.0.2"
     tweetnacl "~0.14.0"
 
-ssr-window@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npm.taobao.org/ssr-window/download/ssr-window-3.0.0.tgz?cache=0&sync_timestamp=1604919709590&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fssr-window%2Fdownload%2Fssr-window-3.0.0.tgz#fd5b82801638943e0cc704c4691801435af7ac37"
-  integrity sha1-/VuCgBY4lD4MxwTEaRgBQ1r3rDc=
-
 ssri@^6.0.0, ssri@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npm.taobao.org/ssri/download/ssri-6.0.1.tgz#2a3c41b28dd45b62b63676ecb74001265ae9edd8"
