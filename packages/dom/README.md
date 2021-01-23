@@ -1,4 +1,4 @@
-# @haloebar/dom
+# @halobear/dom
 
 > balajs from https://github.com/Tencent/weui.js/blob/master/src/util/util.js
 

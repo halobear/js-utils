@@ -38,10 +38,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/haloebar/js-utils.git"
+    "url": "git+https://github.com/halobear/js-utils.git"
   },
-  "homepage": "https://github.com/haloebar/js-utils#readme",
+  "homepage": "https://github.com/halobear/js-utils#readme",
   "bugs": {
-    "url": "https://github.com/haloebar/js-utils/issues"
+    "url": "https://github.com/halobear/js-utils/issues"
   }
 }
