@@ -107,7 +107,6 @@ export default class Carousel {
   handleKeyup(e: KeyboardEvent) {
     const { maxIndex } = this.options
 
-    console.log(e.key, maxIndex)
     if (e.key === 'ArrowLeft') {
       return this.slideTo(this.index ? this.index - 1 : maxIndex)
     }
