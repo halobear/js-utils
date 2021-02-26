@@ -2,7 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "dev": "yarn dev:viewer",
+    "dev": "yarn dev:lazyload",
+    "dev:lazyload": "yarn workspace @halobear/lazyload dev",
     "dev:viewer": "yarn workspace @halobear/viewer dev",
     "bootstrap": "lerna bootstrap"
   },
