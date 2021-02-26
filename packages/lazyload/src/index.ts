@@ -32,8 +32,6 @@ class Lazyload {
       threshold: [this.settings.threshold],
     }
 
-    console.log(observerConfig)
-
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
