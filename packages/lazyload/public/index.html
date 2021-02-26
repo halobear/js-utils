@@ -18,7 +18,7 @@
       text-align: center;
     }
 
-    .img {
+    .lazyload {
       width: 300px;
       height: 300px;
       display: block;
@@ -34,29 +34,29 @@
 
 <body>
   <h2>@halobear/lazyload</h2>
-  <div data-src="images/1.jpg" class="img"></div>
+  <div data-src="images/1.jpg" class="lazyload"></div>
   <img
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2N49+7dfwAJYgPK+tLRowAAAABJRU5ErkJggg=="
-    data-src="images/2.jpg" class="img">
+    data-src="images/2.jpg" class="lazyload">
   <img
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2N49+7dfwAJYgPK+tLRowAAAABJRU5ErkJggg=="
-    data-src="images/3.jpg" class="img">
+    data-src="images/3.jpg" class="lazyload">
   <img
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2N49+7dfwAJYgPK+tLRowAAAABJRU5ErkJggg=="
-    data-src="images/4.jpg" class="img">
+    data-src="images/4.jpg" class="lazyload">
   <img
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2N49+7dfwAJYgPK+tLRowAAAABJRU5ErkJggg=="
-    data-src="images/5.jpg" class="img">
+    data-src="images/5.jpg" class="lazyload">
   <img
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2N49+7dfwAJYgPK+tLRowAAAABJRU5ErkJggg=="
-    data-src="images/6.jpg" class="img">
+    data-src="images/6.jpg" class="lazyload">
   <img
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2N49+7dfwAJYgPK+tLRowAAAABJRU5ErkJggg=="
-    data-src="images/7.jpg" class="img">
+    data-src="images/7.jpg" class="lazyload">
 
   <script src="index.js"></script>
   <script>
-    new Lazyload(document.querySelectorAll('.img'))
+    new Lazyload(document.querySelectorAll('.lazyload'))
   </script>
 </body>
 
