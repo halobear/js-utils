@@ -122,7 +122,7 @@ function createConfig(format, output, plugins = []) {
 function createProdConfig(format) {
   const { terser } = require('rollup-plugin-terser')
   const plugins = []
-  if (/^(global|esm)?/.test(format)) {
+  if (/^(global|esm)/.test(format)) {
     plugins.push(
       terser(({
         module: /^esm/.test(format),
