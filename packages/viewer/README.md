@@ -32,3 +32,5 @@ const destroy = preview(options: ViewerOptions, e?: MouseEvent | TouchEvent)
 // 关闭
 destory()
 ```
+
+## [@halobear/viewer](https://cdn.jsdelivr.net/npm/@halobear/viewer)

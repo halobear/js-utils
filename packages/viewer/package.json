@@ -2,17 +2,19 @@
   "name": "@halobear/viewer",
   "version": "1.0.2",
   "description": "类似微信图片预览，支持缩放、手指下滑关闭",
-  "main": "lib/index.umd.min.js",
-  "module": "lib/index.esm.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/viewer.cjs.js",
+  "module": "dist/viewer.esm.js",
+  "jsdelivr": "dist/viewer.global.js",
+  "types": "dist/viewer.d.ts",
   "scripts": {
     "dev": "NODE_ENV=development node scripts/dev",
-    "dev2": "NODE_ENV=development rollup --config scripts/rollup.dev.config.js --watch",
-    "build": "NODE_ENV=production node scripts/build --formats global -t",
+    "build": "NODE_ENV=production node scripts/build -t",
+    "build:esm": "yarn build -f esm",
+    "build:global": "yarn build -f global",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
-    "lib",
+    "dist",
     "src"
   ],
   "buildOptions": {
@@ -42,7 +44,8 @@
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-typescript2": "^0.27.2",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.3",
+    "zlib": "^1.0.5"
   },
   "author": "kuan1",
   "license": "MIT",

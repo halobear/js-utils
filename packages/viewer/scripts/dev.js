@@ -1,6 +1,5 @@
 /*
 NODE_ENV=development yarn dev
-```
 */
 const execa = require('execa')
 const args = require('minimist')(process.argv.slice(2))
@@ -14,7 +13,7 @@ execa(
     '-wc',
     '--environment',
     [
-      `FORMATS:${formats || 'global'}`,
+      `FORMATS:${formats || 'dev'}`,
       `DIST:${dist || 'public'}`,
       sourceMap ? `SOURCE_MAP:true` : ``
     ]

@@ -10,7 +10,8 @@ import pkg from './package.json'
 const name = path.basename(pkg.name)
 const resolve = p => path.resolve(__dirname, p)
 const packageOptions = pkg.buildOptions || {}
-const dist = process.env.DIST || 'dist'
+const dist = process.env.DIST || `dist`
+const isProd = process.env.NODE_ENV === 'production'
 
 const date = {
   day: new Date().getDate(),
@@ -28,14 +29,18 @@ const banner = `
 
 const outputConfigs = {
   esm: {
-    file: resolve(`${dist}/${name}.esm.js`),
+    file: resolve(`${dist}/src/${name}.esm.js`),
     format: 'es'
   },
   cjs: {
-    file: resolve(`${dist}/${name}.cjs.js`),
+    file: resolve(`${dist}/src/${name}.cjs.js`),
     format: 'cjs'
   },
   global: {
+    file: resolve(`${dist}/src/${name}.global.js`),
+    format: 'iife'
+  },
+  dev: {
     file: resolve(`${dist}/${name}.global.js`),
     format: 'iife'
   }
@@ -43,20 +48,18 @@ const outputConfigs = {
 
 const defaultFormats = ['esm', 'cjs']
 const inlineFormats = process.env.FORMATS && process.env.FORMATS.split('.')
-const formats = inlineFormats || pkg.formats || defaultFormats
+const formats = inlineFormats || pkg.buildOptions.formats || defaultFormats
 
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
 const configs = formats.map(format => createConfig(format, outputConfigs[format]))
 
-if (process.env.NODE_ENV === 'production') {
-  if (/^(global|esm)?/.test(format)) {
-    packageConfigs.push(createMinifiedConfig(format))
-  }
+if (isProd) {
+  formats.forEach(format => {
+    configs.push(createProdConfig(format))
+  })
 }
-
-require('fs').writeFileSync('temp.json', JSON.stringify(configs, null, 2))
 
 export default configs
 
@@ -69,8 +72,9 @@ function createConfig(format, output, plugins = []) {
   output.banner = banner
   output.sourcemap = !!process.env.SOURCE_MAP
   output.externalLiveBindings = false
+  format === 'cjs' && (output.exports = 'auto')
 
-  const isGlobalBuild = /global/.test(format)
+  const isGlobalBuild = /iife/.test(output.format)
   isGlobalBuild && (output.name = packageOptions.name || name)
 
   const shouldEmitDeclarations = process.env.TYPES != null && !hasTSChecked
@@ -80,7 +84,7 @@ function createConfig(format, output, plugins = []) {
     tsconfig: path.resolve(__dirname, 'tsconfig.json'),
     tsconfigOverride: {
       compilerOptions: {
-        sourceMap: output.sourcemap,
+        sourceMap: false,
         declaration: shouldEmitDeclarations,
         declarationMap: shouldEmitDeclarations
       },
@@ -97,7 +101,7 @@ function createConfig(format, output, plugins = []) {
     output,
     external,
     plugins: [
-      postcss({ plugins: [require('autoprefixer')] }),
+      postcss({ plugins: [require('autoprefixer')], minimize: isProd }),
       rollupResolve({ browser: true }),
       commonjs({ exclude: 'node_modules' }),
       json,
@@ -115,21 +119,25 @@ function createConfig(format, output, plugins = []) {
   }
 }
 
-function createMinifiedConfig(format) {
+function createProdConfig(format) {
   const { terser } = require('rollup-plugin-terser')
-  return createConfig(
-    format,
-    {
-      file: resolve(`${dist}/${name}.${format}.prod.js`),
-      format: outputConfigs[format].format
-    },
-    [
+  const plugins = []
+  if (/^(global|esm)?/.test(format)) {
+    plugins.push(
       terser(({
         module: /^esm/.test(format),
         compress: { ecma: 2015, pure_getters: true },
         safari10: true
       }))
-    ]
+    )
+  }
+  return createConfig(
+    format,
+    {
+      file: resolve(`${dist}/${name}.${format}.js`),
+      format: outputConfigs[format].format
+    },
+    plugins
   )
 }
 
