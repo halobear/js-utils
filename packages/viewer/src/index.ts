@@ -4,7 +4,7 @@ import createUI from './core/createUI'
 import { showViewer, hideViewer } from './core/util'
 import Carousel from './core/Carousel'
 
-interface ViewerOptions {
+export interface ViewerOptions {
   data: string[]
   container?: HTMLDivElement
   gap?: number
@@ -14,6 +14,9 @@ interface ViewerOptions {
   onChange?: (index: number) => void
 }
 
+/**
+ * 预览图片
+ */
 export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
   let {
     data,

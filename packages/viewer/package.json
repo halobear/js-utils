@@ -16,6 +16,7 @@
   ],
   "devDependencies": {
     "@halobear/dom": "^1.0.1",
+    "@microsoft/api-extractor": "^7.13.2",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.4.0",

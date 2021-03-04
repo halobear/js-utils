@@ -26,7 +26,7 @@ const config = {
       plugins: [require('autoprefixer')]
     }),
     json(),
-    typescript({ tsconfigOverride: { compilerOptions: { module: 'es2015' } } }),
+    typescript({ tsconfigOverride: { compilerOptions: { module: 'es2015', declaration: false, declarationMap: false } } }),
   ],
 }
 

@@ -9,7 +9,7 @@ type ChangeOpacityFn = (opacity: number) => void
 class Closeable {
   private el: HTMLDivElement
   private $el: HaloDom
-  private closeHeihgt: number
+  private closeHeight: number
   private startX: number = 0
   private startY: number = 0
   private diffX: number = 0
@@ -18,10 +18,10 @@ class Closeable {
   private changeOpacity: ChangeOpacityFn
   private isStart: boolean = false
   private direction: 'vertical' | 'horizontal' | '' = ''
-  constructor(el: HTMLDivElement, closeHeihgt: number = 200, changeOpacity: ChangeOpacityFn) {
+  constructor(el: HTMLDivElement, closeHeight: number = 200, changeOpacity: ChangeOpacityFn) {
     this.el = el
     this.$el = $(el)
-    this.closeHeihgt = closeHeihgt
+    this.closeHeight = closeHeight
     this.changeOpacity = changeOpacity
 
     this.init = this.init.bind(this)
@@ -62,8 +62,8 @@ class Closeable {
       e.preventDefault()
     }
     const pointer = getPointer(e)
-    this.startX = pointer.pageX
-    this.startY = pointer.pageY
+    this.startX = pointer.clientX
+    this.startY = pointer.clientY
     this.diffY = 0
     this.diffY = 0
     this.direction = ''
@@ -78,13 +78,13 @@ class Closeable {
       e.stopPropagation()
     }
     const xy = getPointer(e)
-    this.diffY = xy.pageY - this.startY
+    this.diffY = xy.clientY - this.startY
     if (!this.direction) {
-      this.diffX = xy.pageX - this.startX
+      this.diffX = xy.clientX - this.startX
       this.direction = Math.abs(this.diffY) > Math.abs(this.diffX) ? 'vertical' : 'horizontal'
     }
     if (this.direction === 'vertical') {
-      this.opacity = Math.min(1, 1 - this.diffY / this.closeHeihgt)
+      this.opacity = Math.min(1, 1 - this.diffY / this.closeHeight)
       this.$el.transform(`translate3d(0,${this.diffY}px,0)`)
       this.changeOpacity(this.opacity)
     }
@@ -93,11 +93,9 @@ class Closeable {
     if (!this.isStart) return
     this.$el.transition(300)
     if (this.direction === 'vertical') {
-      if (this.opacity < 0.6) {
-        // this.diffY = this.closeHeihgt
+      if (this.opacity < 0.4) {
         this.opacity = 0
       } else {
-        // this.diffY = 0
         this.opacity = 1
       }
       this.diffY = 0
@@ -108,7 +106,7 @@ class Closeable {
   }
 }
 
-export default (el: HTMLDivElement, closeHeihgt: number, changeOpacity: ChangeOpacityFn) => {
-  const cba = new Closeable(el, closeHeihgt, changeOpacity)
+export default (el: HTMLDivElement, closeHeight: number, changeOpacity: ChangeOpacityFn) => {
+  const cba = new Closeable(el, closeHeight, changeOpacity)
   return () => cba.destroy()
 }

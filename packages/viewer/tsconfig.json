@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "outDir": "lib",
     "declaration": true,
+    "declarationMap": true,
     "declarationDir": "lib",
     "sourceMap": false,
     "target": "es5",

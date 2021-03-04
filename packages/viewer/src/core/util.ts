@@ -58,7 +58,7 @@ export function showViewer(container: HTMLDivElement, e?: TouchEvent | MouseEven
   const $container = $(container)
   $container.transition(0).transform(`translate3d(${diffX}px, ${diffY}px,0) scale(0)`).css({ opacity: '0' })
   setTimeout(() => {
-    $container.transition(1050).transform(`translate3d(0,0,0) scale(1)`).css({ opacity: '1' })
+    $container.transition(150).transform(`translate3d(0,0,0) scale(1)`).css({ opacity: '1' })
   })
 }
 
@@ -67,7 +67,7 @@ export function hideViewer(container: HTMLDivElement) {
   const $container = $(container)
   container.classList.add('hide')
   setTimeout(() => {
-    $container.transition(100).css({ opacity: '0' })
+    $container.transition(80).css({ opacity: '0' })
     $container.on('webkitTransitionEnd transitionend', function () {
       container.parentNode && $container.remove()
     })

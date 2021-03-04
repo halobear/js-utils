@@ -73,9 +73,7 @@ export default class Carousel {
     window.addEventListener('keyup', this.handleKeyup, o)
     // 手指下滑关闭
     this.container.querySelectorAll('.viewer-item').forEach((el) => {
-      this.destroyFns.push(
-        closeable(el as HTMLDivElement, this.options.screenHeight, this.changeOpacity)
-      )
+      this.destroyFns.push(closeable(el as HTMLDivElement, this.options.screenHeight / 2, this.changeOpacity))
     })
     // 双指缩放功能
     this.container.querySelectorAll('.viewer-item .viewer-image').forEach((el) => {
