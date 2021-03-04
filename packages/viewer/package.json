@@ -1,6 +1,6 @@
 {
   "name": "@halobear/viewer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "类似微信图片预览，支持缩放、手指下滑关闭",
   "main": "dist/viewer.cjs.js",
   "module": "dist/viewer.esm.js",
