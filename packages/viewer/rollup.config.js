@@ -68,7 +68,7 @@ function createConfig(format, output, plugins = []) {
 
   output.banner = banner
   output.sourcemap = !!process.env.SOURCE_MAP
-  // output.externalLiveBindings = false
+  output.externalLiveBindings = false
 
   const isGlobalBuild = /global/.test(format)
   isGlobalBuild && (output.name = packageOptions.name || name)
@@ -109,9 +109,9 @@ function createConfig(format, output, plugins = []) {
         warn(msg)
       }
     },
-    treeshake: {
-      moduleSideEffects: false
-    }
+    // treeshake: {
+    //   moduleSideEffects: false
+    // }
   }
 }
 
