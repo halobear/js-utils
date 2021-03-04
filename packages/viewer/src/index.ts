@@ -41,7 +41,7 @@ export default (options: ViewerOptions, e?: MouseEvent | TouchEvent) => {
   }
 
   const removeContainer = function () {
-    container && hideViewer(container, e)
+    container && hideViewer(container)
   }
 
   const carousel = new Carousel(container, config, removeContainer)

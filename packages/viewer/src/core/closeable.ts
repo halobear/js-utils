@@ -9,7 +9,7 @@ type ChangeOpacityFn = (opacity: number) => void
 class Closeable {
   private el: HTMLDivElement
   private $el: HaloDom
-  private screenHeight: number
+  private closeHeihgt: number
   private startX: number = 0
   private startY: number = 0
   private diffX: number = 0
@@ -18,10 +18,10 @@ class Closeable {
   private changeOpacity: ChangeOpacityFn
   private isStart: boolean = false
   private direction: 'vertical' | 'horizontal' | '' = ''
-  constructor(el: HTMLDivElement, screenHeight: number, changeOpacity: ChangeOpacityFn) {
+  constructor(el: HTMLDivElement, closeHeihgt: number = 200, changeOpacity: ChangeOpacityFn) {
     this.el = el
     this.$el = $(el)
-    this.screenHeight = screenHeight
+    this.closeHeihgt = closeHeihgt
     this.changeOpacity = changeOpacity
 
     this.init = this.init.bind(this)
@@ -61,9 +61,9 @@ class Closeable {
     if (e.cancelable) {
       e.preventDefault()
     }
-    const xy = getPointer(e)
-    this.startX = xy.pageX
-    this.startY = xy.pageY
+    const pointer = getPointer(e)
+    this.startX = pointer.pageX
+    this.startY = pointer.pageY
     this.diffY = 0
     this.diffY = 0
     this.direction = ''
@@ -84,7 +84,7 @@ class Closeable {
       this.direction = Math.abs(this.diffY) > Math.abs(this.diffX) ? 'vertical' : 'horizontal'
     }
     if (this.direction === 'vertical') {
-      this.opacity = Math.min(1, 1 - this.diffY / (this.screenHeight - this.startY))
+      this.opacity = Math.min(1, 1 - this.diffY / this.closeHeihgt)
       this.$el.transform(`translate3d(0,${this.diffY}px,0)`)
       this.changeOpacity(this.opacity)
     }
@@ -94,7 +94,7 @@ class Closeable {
     this.$el.transition(300)
     if (this.direction === 'vertical') {
       if (this.opacity < 0.6) {
-        // this.diffY = this.screenHeight
+        // this.diffY = this.closeHeihgt
         this.opacity = 0
       } else {
         // this.diffY = 0
@@ -108,7 +108,7 @@ class Closeable {
   }
 }
 
-export default (el: HTMLDivElement, screenHeight: number, changeOpacity: ChangeOpacityFn) => {
-  const cba = new Closeable(el, screenHeight, changeOpacity)
+export default (el: HTMLDivElement, closeHeihgt: number, changeOpacity: ChangeOpacityFn) => {
+  const cba = new Closeable(el, closeHeihgt, changeOpacity)
   return () => cba.destroy()
 }
