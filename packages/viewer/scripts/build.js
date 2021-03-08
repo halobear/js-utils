@@ -22,7 +22,7 @@ run()
 async function run() {
   await build()
   checkFileSize(resolve(pkg.jsdelivr))
-  await fs.remove(resolve('dist/src'))
+  // await fs.remove(resolve('dist/src'))
 
   console.log()
   console.log(chalk.cyan('build success ~'))

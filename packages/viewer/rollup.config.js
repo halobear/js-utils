@@ -53,7 +53,7 @@ const formats = inlineFormats || pkg.buildOptions.formats || defaultFormats
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
-const configs = formats.map(format => createConfig(format, outputConfigs[format]))
+const configs = (inlineFormats || ['global']).map(format => createConfig(format, outputConfigs[format]))
 
 if (isProd) {
   formats.forEach(format => {
