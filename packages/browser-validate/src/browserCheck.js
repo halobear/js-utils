@@ -308,7 +308,7 @@ function browserCheck() {
     hide_reasons.push('已经是最新浏览器了')
   if (bb.no_device_update) hide_reasons.push('设备不需要升级')
   if (is_below_required) reasons.push('版本过低')
-  return { hide_reasons, reasons, valid: hide_reasons.length > 0 && !reasons.length }
+  return { hide_reasons, reasons, valid: hide_reasons.length > 0 || !reasons.length }
 }
 
 export default browserCheck
