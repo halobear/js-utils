@@ -308,7 +308,6 @@ function browserCheck() {
     hide_reasons.push('已经是最新浏览器了')
   if (bb.no_device_update) hide_reasons.push('设备不需要升级')
   if (is_below_required) reasons.push('版本过低')
-  if (!bb.is_supported) reasons.push('插件不支持')
   return { hide_reasons, reasons, valid: hide_reasons.length > 0 && !reasons.length }
 }
 
