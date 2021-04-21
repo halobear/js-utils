@@ -4,3 +4,4 @@
 - [`@halobear/js-feedback`](./packages/js-feedback): loading、toast,`3k`(before gzip)
 - [`@halobear/viewer`](./packages/viewer): photo viewer [➡️ Live DEMO](https://halobear.github.io/js-utils/viewer/index.html)
 - [`@halobear/layload`](./packages/lazyload): lazyload images
+- [`@halobear/browser-update`](./packages/browser-update)：modify from browser-update
