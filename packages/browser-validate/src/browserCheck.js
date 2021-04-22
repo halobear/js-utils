@@ -302,7 +302,7 @@ function browserCheck() {
   const reasons = []
   if (bb.other !== false) hide_reasons.push('其他浏览器:' + bb.other)
   if (bb.embedded !== false) hide_reasons.push('is embedded browser:' + bb.embedded)
-  if (bb.mobile && op.mobile === false) hide_reasons.push('移动端不提示')
+  if (bb.mobile && bb.mobile === false) hide_reasons.push('移动端不提示')
   if (bb.is_latest)
     //the latest versions of a browser can not be notified
     hide_reasons.push('已经是最新浏览器了')
